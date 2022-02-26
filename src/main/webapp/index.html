@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Locnv Shop</title>
+    <meta name="description" content="Description for graduation_fe" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="theme-color" content="#000000" />
+    <base href="/" />
+    <link rel="stylesheet" href="content/css/loading.css" />
+  </head>
+  <body>
+    
+    <jhi-main>
+      <div class="app-loading">
+        <div id="jhipster-error" style="display: none">
+         
+      </div>
+    </jhi-main>
+    <script type="text/javascript">
+      // show an error message if the app loading takes more than 4 sec
+      window.onload = function () {
+        setTimeout(showError, 4000);
+      };
+      function showError() {
+        var errorElm = document.getElementById('jhipster-error');
+        if (errorElm && errorElm.style) {
+          errorElm.style.display = 'block';
+        }
+      }
+    </script>
+  </body>
+</html>
