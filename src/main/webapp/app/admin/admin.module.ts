@@ -10,18 +10,33 @@ import { httpInterceptorProviders } from 'app/core/interceptor';
 import { ActionCatalogComponent } from './catalogs/action-catalog/action-catalog.component';
 import { CreateUpdateCatalogComponent } from './catalogs/create-update-catalog/create-update-catalog.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
-
+import { NgSelectModule } from '@ng-select/ng-select';
+import { CommonModule } from '@angular/common';
+import { NzTreeSelectModule } from 'ng-zorro-antd/tree-select';
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { ProductsComponent } from './products/products.component';
 
 @NgModule({
   declarations: [
-    UserManagementComponent, CatalogsComponent, OrdersComponent, ActionCatalogComponent, CreateUpdateCatalogComponent
+    UserManagementComponent,
+    CatalogsComponent,
+    OrdersComponent,
+    ActionCatalogComponent,
+    CreateUpdateCatalogComponent,
+    ProductsComponent,
   ],
   imports: [
     AdminRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
+    NzTreeSelectModule,
+    CommonModule,
+    NgSelectModule,
     MatTooltipModule,
-    AgGridModule.withComponents([])
+    ModalModule,
+    AgGridModule.withComponents([]),
   ],
-  providers: [httpInterceptorProviders]
+  entryComponents: [CreateUpdateCatalogComponent, ActionCatalogComponent],
+  providers: [httpInterceptorProviders],
 })
-export class AdminModule { }
+export class AdminModule {}

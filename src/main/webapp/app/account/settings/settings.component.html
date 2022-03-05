@@ -2,25 +2,25 @@
   <div class="row justify-content-center">
     <div class="col-md-8">
       <h2 *ngIf="account">
-        User settings for [<strong>{{ account.login }}</strong
+        Chỉnh sửa tài khoản [<strong>{{ account.login }}</strong
         >]
       </h2>
 
       <div class="alert alert-success" *ngIf="success">
-        <strong>Settings saved!</strong>
+        <strong>Lưu thông tin thành công!</strong>
       </div>
 
       <jhi-alert-error></jhi-alert-error>
 
       <form name="form" role="form" (ngSubmit)="save()" [formGroup]="settingsForm" *ngIf="account" novalidate>
         <div class="form-group">
-          <label class="form-control-label" for="firstName">First Name</label>
+          <label class="form-control-label" for="firstName">Họ và tên đệm</label>
           <input
             type="text"
             class="form-control"
             id="firstName"
             name="firstName"
-            placeholder="Your first name"
+            placeholder="Họ và tên đệm"
             formControlName="firstName"
             data-cy="firstname"
           />
@@ -30,28 +30,26 @@
               settingsForm.get('firstName')!.invalid && (settingsForm.get('firstName')!.dirty || settingsForm.get('firstName')!.touched)
             "
           >
-            <small class="form-text text-danger" *ngIf="settingsForm.get('firstName')?.errors?.required">
-              Your first name is required.
-            </small>
+            <small class="form-text text-danger" *ngIf="settingsForm.get('firstName')?.errors?.required"> Họ và tên đệm là bắt buộc </small>
 
             <small class="form-text text-danger" *ngIf="settingsForm.get('firstName')?.errors?.minlength">
-              Your first name is required to be at least 1 character.
+              Họ và tên đệm phải ít nhất 1 ký tự
             </small>
 
             <small class="form-text text-danger" *ngIf="settingsForm.get('firstName')?.errors?.maxlength">
-              Your first name cannot be longer than 50 characters.
+              Họ và tên đệm không quá 50 ký tự
             </small>
           </div>
         </div>
 
         <div class="form-group">
-          <label class="form-control-label" for="lastName">Last Name</label>
+          <label class="form-control-label" for="lastName">Tên</label>
           <input
             type="text"
             class="form-control"
             id="lastName"
             name="lastName"
-            placeholder="Your last name"
+            placeholder="Tên của bạn"
             formControlName="lastName"
             data-cy="lastname"
           />
@@ -59,16 +57,14 @@
           <div
             *ngIf="settingsForm.get('lastName')!.invalid && (settingsForm.get('lastName')!.dirty || settingsForm.get('lastName')!.touched)"
           >
-            <small class="form-text text-danger" *ngIf="settingsForm.get('lastName')?.errors?.required">
-              Your last name is required.
-            </small>
+            <small class="form-text text-danger" *ngIf="settingsForm.get('lastName')?.errors?.required"> Tên của bạn là bắt buộc </small>
 
             <small class="form-text text-danger" *ngIf="settingsForm.get('lastName')?.errors?.minlength">
-              Your last name is required to be at least 1 character.
+              Tên phải có ít nhất một ký tự
             </small>
 
             <small class="form-text text-danger" *ngIf="settingsForm.get('lastName')?.errors?.maxlength">
-              Your last name cannot be longer than 50 characters.
+              Tên không được quá 50 ký tự
             </small>
           </div>
         </div>
@@ -80,27 +76,25 @@
             class="form-control"
             id="email"
             name="email"
-            placeholder="Your email"
+            placeholder="Email của bạn"
             formControlName="email"
             data-cy="email"
           />
 
           <div *ngIf="settingsForm.get('email')!.invalid && (settingsForm.get('email')!.dirty || settingsForm.get('email')!.touched)">
-            <small class="form-text text-danger" *ngIf="settingsForm.get('email')?.errors?.required"> Your email is required. </small>
+            <small class="form-text text-danger" *ngIf="settingsForm.get('email')?.errors?.required"> Email là bắt buộc </small>
 
-            <small class="form-text text-danger" *ngIf="settingsForm.get('email')?.errors?.email"> Your email is invalid. </small>
+            <small class="form-text text-danger" *ngIf="settingsForm.get('email')?.errors?.email"> Email không đúng </small>
 
             <small class="form-text text-danger" *ngIf="settingsForm.get('email')?.errors?.minlength">
-              Your email is required to be at least 5 characters.
+              Email phải có ít nhất 5 ký tự
             </small>
 
-            <small class="form-text text-danger" *ngIf="settingsForm.get('email')?.errors?.maxlength">
-              Your email cannot be longer than 100 characters.
-            </small>
+            <small class="form-text text-danger" *ngIf="settingsForm.get('email')?.errors?.maxlength"> Email không quá 100 ký tự </small>
           </div>
         </div>
 
-        <button type="submit" [disabled]="settingsForm.invalid" class="btn btn-primary" data-cy="submit">Save</button>
+        <button type="submit" [disabled]="settingsForm.invalid" class="btn btn-primary" data-cy="submit">Lưu thông tin</button>
       </form>
     </div>
   </div>

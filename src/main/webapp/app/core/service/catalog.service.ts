@@ -1,64 +1,67 @@
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable, never } from 'rxjs';
-import {Injectable} from '@angular/core';
-import {environment} from '../../../environment/environment';
-import {BasicService} from './basic.service';
-import {HelperService} from './helper.service';
+import { Injectable } from '@angular/core';
+import { environment } from '../../../environment/environment';
+import { BasicService } from './basic.service';
+import { HelperService } from './helper.service';
 import { CommonServiceService } from './common-service.service';
 import { ApplicationConfigService } from '../config/application-config.service';
 
-
 @Injectable({
-    providedIn: 'root'
-  })
+  providedIn: 'root',
+})
+export class CatalogService extends BasicService {
+  private API = `${environment.API_GATEWAY_ENDPOINT}`;
+  private API_TEST = `${environment.API_GATEWAY_ENDPOINT}`;
+  public loading = new BehaviorSubject<any>('next');
 
-  export class CatalogService extends BasicService{
+  private httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Credentials': 'true',
+    }),
+  };
 
-    private API = `${environment.API_GATEWAY_ENDPOINT}`;
-    private API_TEST = `${environment.API_GATEWAY_ENDPOINT}`;
-    public loading = new BehaviorSubject<any>('next')
+  constructor(
+    private http: HttpClient,
+    private commonService: CommonServiceService,
+    public helperService: HelperService,
+    private applicationConfigService: ApplicationConfigService
+  ) {
+    super(http, helperService);
+  }
 
-    private httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Credentials': 'true'
-      })
-    }
+  searchForTree(code?, name?, id?) {
+    let param = {
+      id: id,
+      code: code,
+      name: name,
+    };
+    return this.http.post(`${this.applicationConfigService.getEndpointFor('api/catalogs/searchForTree')}`, param).toPromise();
+  }
 
-  // Kiểu chọn
-  public type = new BehaviorSubject<any>('');
-  type$ = this.type.asObservable();
+  getCatalog(id) {
+    return this.http.get<any>(`${this.applicationConfigService.getEndpointFor('api/catalogs/')}` + id).toPromise();
+  }
 
-  // Năm đc chọn trên header
-  public yearCurrent = new BehaviorSubject<any>('');
-  yearCurrent$ = this.yearCurrent.asObservable();
+  checkExist(data) {
+    return this.http.post<any>(
+      `${this.applicationConfigService.getEndpointFor('api/management/catalogs/checkExist')}`,
+      data,
+      this.httpOptions
+    );
+  }
 
-  // Tháng đc chọn trên header
-  public monthCurrent = new BehaviorSubject<any>('');
-  monthCurrent$ = this.monthCurrent.asObservable();
+  create(data) {
+    return this.http.post<any>(`${this.applicationConfigService.getEndpointFor('api/management/catalogs')}`, data, this.httpOptions);
+  }
 
-  // Quý đc chọn trên header
-  public quartersCurrent = new BehaviorSubject<any>('');
-  quartersCurrent$ = this.quartersCurrent.asObservable();
+  update(data) {
+    return this.http.post<any>(`${this.applicationConfigService.getEndpointFor('api/management/catalogs/update')}`, data, this.httpOptions);
+  }
 
-  public subheaderObj = new BehaviorSubject<any>({});
-  currentSubheader$ = this.subheaderObj.asObservable()
-
-    constructor(private http: HttpClient,private commonService: CommonServiceService,
-                public helperService: HelperService,
-                private applicationConfigService: ApplicationConfigService) {
-      super(http,helperService);
-    }
-
-    searchForTree(code, name){
-    
-      let param = {
-        code: code,
-        name: name,
-      }
-      return this.http.post(`${this.applicationConfigService.getEndpointFor("api/management/catalogs/searchForTree")}`, param).toPromise();
-    }
-
-
+  delete(data) {
+    return this.http.post<any>(`${this.applicationConfigService.getEndpointFor('api/management/catalogs/delete')}`, data, this.httpOptions);
+  }
 }

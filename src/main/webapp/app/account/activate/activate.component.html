@@ -1,16 +1,14 @@
 <div>
   <div class="row justify-content-center">
     <div class="col-md-8">
-      <h1>Activation</h1>
+      <h1>Kích hoạt</h1>
 
       <div class="alert alert-success" *ngIf="success">
-        <span><strong>Your user account has been activated.</strong> Please </span>
-        <a class="alert-link" routerLink="/login">sign in</a>.
+        <span><strong>Tài khoản của bạn đã tạo thành công.</strong> Vui lòng </span>
+        <a class="alert-link" routerLink="/login">Đăng nhập</a>.
       </div>
 
-      <div class="alert alert-danger" *ngIf="error">
-        <strong>Your user could not be activated.</strong> Please use the registration form to sign up.
-      </div>
+      <div class="alert alert-danger" *ngIf="error"><strong>Tài khoản của bạn chưa được kích hoạt.</strong> Hãy đăng ký.</div>
     </div>
   </div>
 </div>

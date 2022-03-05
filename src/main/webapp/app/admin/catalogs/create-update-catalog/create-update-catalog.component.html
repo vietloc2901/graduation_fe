@@ -1,91 +1,96 @@
-<!-- <div class="modal-dialog-custom modal-custom-action" >
-    <div class="modal-header">
-      <h4
-        class="modal-title"
-        style="text-align: center; color: #101840 !important;"
-        *ngIf="isCreateNew"
-      >
-       Thêm mới danh mục sản phẩm
-      </h4>
-      <h4
-        class="modal-title"
-        style="text-align: center; color: #101840 !important;"
-        *ngIf="!isCreateNew"
-      >
-     Cập nhật danh mục sản phẩm
-      </h4>
-
-    </div>
-    <div class="modal-body" style="padding: 15px 10px !important">
-      <div class="row">
-        <input type="hidden" formControlName="id" *ngIf="!isCreateNew"/>
-        <div class="col-md-6">
-          <label for="">Mã danh mục<span>*</span></label>
-          <input #focusInput
-          style="font-size: 12px;"
-            type="text"
-            formControlName="code"
-            placeholder="Mã danh mục"
-            [readonly]="!isCreateNew"
-            [(ngModel)]="code.value"
-          />
-          <small class="error-validate" style="color: red" *ngIf="code.error">
-            {{ code.message }}
-          </small>
-        </div>
-        <div class="col-md-6">
-          <label for="">Tên danh mục <span>*</span></label>
-          <input style="font-size: 12px!important;"
+<div class="modal-dialog-custom modal-custom-action" [formGroup]="form1" *ngIf="form1">
+  <div class="modal-header">
+    <h4 class="modal-title" style="text-align: center; color: #101840 !important" *ngIf="isCreateNew">Thêm mới danh mục sản phẩm</h4>
+    <h4 class="modal-title" style="text-align: center; color: #101840 !important" *ngIf="!isCreateNew">Cập nhật danh mục sản phẩm</h4>
+  </div>
+  <div class="modal-body" style="padding: 15px 10px !important">
+    <div class="row">
+      <input type="hidden" formControlName="id" *ngIf="!isCreateNew" />
+      <div class="col-md-12">
+        <label for="">Mã danh mục<span> *</span></label>
+        <input
+          #focusInput
+          style="font-size: 12px"
+          type="text"
+          placeholder="Mã danh mục"
+          [readonly]="!isCreateNew"
+          [(ngModel)]="code.value"
+          (ngModelChange)="validateCatalogCode()"
+          (change)="checkExist()"
+          [ngModelOptions]="{ standalone: true }"
+        />
+        <small class="error-validate" style="color: red" *ngIf="code.error">
+          {{ code.message }}
+        </small>
+      </div>
+      <div class="col-md-12">
+        <label for="">Tên danh mục <span>*</span></label>
+        <input
+          style="font-size: 12px !important"
           type="text"
           placeholder="Tên danh mục"
-            [(ngModel)]="name.value"
-            formControlName="name" />
-          <small class="error-validate" style="color: red" *ngIf="name.error">
-            {{name.message}}
-          </small>
-        </div>
-        <div class="col-md-6">
-          <label for="">Danh mục cha </label>
-          <ng-select style="font-size: 12px!important;"
+          [(ngModel)]="name.value"
+          [ngModelOptions]="{ standalone: true }"
+          (ngModelChange)="validateName()"
+        />
+        <small class="error-validate" style="color: red" *ngIf="name.error">
+          {{ name.message }}
+        </small>
+      </div>
+      <div class="col-md-12">
+        <label for="">Thứ tự hiển thị</label>
+        <input
+          style="font-size: 12px !important"
+          type="number"
+          placeholder="Thứ tự hiển thị"
+          min="0"
+          (keyup)="validateSortOrder()"
+          [(ngModel)]="sortOrder.value"
+          [ngModelOptions]="{ standalone: true }"
+        />
+        <small class="error-validate" style="color: red" *ngIf="sortOrder.error">
+          {{ sortOrder.message }}
+        </small>
+      </div>
+      <div class="col-md-12">
+        <label for="">Danh mục cha </label>
+        <!-- <ng-select style="font-size: 12px!important;"
             placeholder="Danh mục cha"
               [(ngModel)]="parentId.value"
               [items]="listCatalogs"
               bindLabel="name" bindValue="code"
-              formControlName="documentType"
+              formControlName="parentId"
               [searchable]="true"
               [clearable]="true">
               <ng-template ng-option-tmp let-item="item">
                 <div [matTooltip]="item.name">{{item.name}}</div>
               </ng-template>
-            </ng-select>
-            <small class="error-validate" style="color: red" *ngIf="parentId.error">
-              {{parentId.message}}
-            </small>
-        </div>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <div class="btn-action">
-        <button type="button" class="btn-md btn-gray">
-         Hủy bỏ
-        </button>
-        <button
-          type="button"
-          class="btn-md btn-or"
-          *ngIf="isCreateNew"
-        >
-        Thêm mới
-        </button>
-        <button
-          type="button"
-          class="btn-md btn-or"
-          *ngIf="!isCreateNew"
-        >
-        Cập nhật
-        </button>
+            </ng-select> -->
+        <nz-tree-select
+          style="width: 100%; max-width: 100%"
+          #tree
+          (keydown.enter)="tree.openDropdown()"
+          [nzDefaultExpandAll]="true"
+          tabindex="0"
+          [nzNodes]="nodes"
+          [nzPlaceHolder]="placeHolder"
+          [(ngModel)]="parentId.value"
+          (ngModelChange)="onChange($event)"
+          nzShowSearch
+          [nzShowIcon]="true"
+          [ngModelOptions]="{ standalone: true }"
+        ></nz-tree-select>
+        <small class="error-validate" style="color: red" *ngIf="parentId.error">
+          {{ parentId.message }}
+        </small>
       </div>
     </div>
   </div>
-  <div class="page-loading-class" style="z-index: 99999;" *ngIf="hide===false">
-    <div class="bee-spinner-sc"></div>
-  </div> -->
+  <div class="modal-footer">
+    <div class="btn-action">
+      <button type="button" class="btn-md btn-gray" (click)="closeModal()">Hủy bỏ</button>
+      <button (click)="createNewCatalog()" [disabled]="isSubmit" type="button" class="btn-md btn-or" *ngIf="isCreateNew">Thêm mới</button>
+      <button (click)="updateCatalog()" [disabled]="isSubmit" type="button" class="btn-md btn-or" *ngIf="!isCreateNew">Cập nhật</button>
+    </div>
+  </div>
+</div>

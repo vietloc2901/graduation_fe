@@ -27,25 +27,35 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AgGridModule } from 'ag-grid-angular';
 import { ToastrModule } from 'ngx-toastr';
-import "ag-grid-enterprise";
-import {MatTooltipModule} from "@angular/material/tooltip";
-
+import 'ag-grid-enterprise';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { MatDialogModule } from '@angular/material/dialog';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NzTreeSelectModule } from 'ng-zorro-antd/tree-select';
+import { ModalModule } from 'ngx-bootstrap/modal';
 @NgModule({
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
+    CommonModule,
     SharedModule,
     HomeModule,
     FormsModule,
     ReactiveFormsModule,
     MatTooltipModule,
     AppRoutingModule,
+    NgSelectModule,
+    MatDialogModule,
+    NzTreeSelectModule,
+    ModalModule.forRoot(),
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: false }),
     HttpClientModule,
     NgxWebstorageModule.forRoot({ prefix: 'jhi', separator: '-', caseSensitive: true }),
     FontAwesomeModule,
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-right',
-      timeOut: 2000
+      timeOut: 2000,
     }),
     AgGridModule.withComponents([]),
   ],
