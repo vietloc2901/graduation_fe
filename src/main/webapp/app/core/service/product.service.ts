@@ -10,7 +10,7 @@ import { ApplicationConfigService } from '../config/application-config.service';
 @Injectable({
   providedIn: 'root',
 })
-export class CatalogService extends BasicService {
+export class ProductService extends BasicService {
   public loading = new BehaviorSubject<any>('next');
 
   private httpOptions = {
@@ -30,17 +30,26 @@ export class CatalogService extends BasicService {
     super(http, helperService);
   }
 
-  searchForTree(code?, name?, id?) {
-    let param = {
-      id: id,
-      code: code,
-      name: name,
-    };
-    return this.http.post<any>(`${this.applicationConfigService.getEndpointFor('api/catalogs/searchForTree')}`, param).toPromise();
+  search(data, page, pageSize) {
+    return this.http.post<any>(
+      `${this.applicationConfigService.getEndpointFor('api/products/search')}?page=${page}&pageSize=${pageSize}`,
+      data
+    );
   }
 
-  getCatalog(id) {
-    return this.http.get<any>(`${this.applicationConfigService.getEndpointFor('api/catalogs/')}` + id).toPromise();
+  searchForViewProducts(data, page, pageSize) {
+    return this.http.post<any>(
+      `${this.applicationConfigService.getEndpointFor('api/products/searchForViewProduct')}?page=${page}&pageSize=${pageSize}`,
+      data
+    );
+  }
+
+  searchForView(data) {
+    return this.http.post<any>(`${this.applicationConfigService.getEndpointFor('api/products/specialSearch')}`, data);
+  }
+
+  getProduct(id) {
+    return this.http.get<any>(`${this.applicationConfigService.getEndpointFor('api/products/')}` + id).toPromise();
   }
 
   checkExist(data) {
@@ -52,14 +61,18 @@ export class CatalogService extends BasicService {
   }
 
   create(data) {
-    return this.http.post<any>(`${this.applicationConfigService.getEndpointFor('api/management/catalogs')}`, data, this.httpOptions);
+    return this.http.post<any>(`${this.applicationConfigService.getEndpointFor('api/products/create')}`, data);
   }
 
   update(data) {
-    return this.http.post<any>(`${this.applicationConfigService.getEndpointFor('api/management/catalogs/update')}`, data, this.httpOptions);
+    return this.http.post<any>(`${this.applicationConfigService.getEndpointFor('api/products/update')}`, data);
   }
 
   delete(data) {
     return this.http.post<any>(`${this.applicationConfigService.getEndpointFor('api/management/catalogs/delete')}`, data, this.httpOptions);
+  }
+
+  deleteSpec(data) {
+    return this.http.post<any>(`${this.applicationConfigService.getEndpointFor('api/product-specs/delete')}`, data, this.httpOptions);
   }
 }

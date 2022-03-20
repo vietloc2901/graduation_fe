@@ -1,0 +1,76 @@
+<h3>{{ data.name }}</h3>
+<div class="row">
+  <div class="col-md-2">
+    <img [src]="imageUrl" style="width: 300px; height: 300px" />
+  </div>
+  <div class="col-md-1"></div>
+  <div class="col-md-4">
+    <h5>
+      Mã sản phẩm: <span style="color: blue">{{ data.code }}</span>
+    </h5>
+    <h5><b>Thông số sản phẩm</b></h5>
+    <div [innerHTML]="data.productDetails"></div>
+    <div style="height: 30px"></div>
+    <h3 style="color: red">{{ formatCurrency(data.price) }}</h3>
+    <button type="button" class="btn-cancel">Đã có VAT</button>
+    <button type="button" class="btn-cancel">Bảo hành 12 tháng</button>
+    <div style="height: 30px"></div>
+    <button type="button" class="btn-save">ĐẶT MUA NGAY</button>
+  </div>
+  <div class="col-md-5">
+    <h4><b>Thông số kỹ thuật</b></h4>
+    <table class="table">
+      <tr *ngFor="let item of numberSpec">
+        <td>
+          <b>{{ item.key }}</b>
+        </td>
+        <td>{{ item.value }}</td>
+      </tr>
+    </table>
+  </div>
+</div>
+<br />
+<hr />
+<div class="row">
+  <div class="col-md-6" [innerHTML]="data.descriptionDocument"></div>
+</div>
+
+<div>
+  <h2>Sản phẩm tương tự</h2>
+  <!-- Tab Contetn Start -->
+  <div class="row tab-content">
+    <div class="col-md-3" *ngFor="let item of listSame">
+      <div class="single-product">
+        <!-- Product Image Start -->
+        <div class="pro-img">
+          <img class="primary-img" [src]="item.image" alt="single-product" (click)="routerToDetails(item.id)" />
+        </div>
+        <!-- Product Image End -->
+        <!-- Product Content Start -->
+        <div class="pro-content">
+          <div class="pro-info">
+            <h4 (click)="routerToDetails(item.id)">{{ getName(item.name) }}</h4>
+            <p>
+              <span class="price">{{ formatCurrency(item.price) }}</span>
+            </p>
+          </div>
+          <div class="pro-actions">
+            <div class="actions-primary">
+              <button class="btn-save" style="width: 100%" title="Thêm">+ Thêm vào giỏ hàng</button>
+            </div>
+            <div style="height: 15px"></div>
+            <div class="actions-primary">
+              <button (click)="routerToDetails(item.id)" class="btn-cancel" style="width: 100%" title="Thêm">Xem chi tiết</button>
+            </div>
+          </div>
+        </div>
+        <!-- Product Content End -->
+      </div>
+    </div>
+    <div id="kids" class="tab-pane fade show active">
+      <!-- Arrivals Product Activation Start Here -->
+      <div class="electronics-pro-active owl-carousel"></div>
+      <!-- Arrivals Product Activation End Here -->
+    </div>
+  </div>
+</div>

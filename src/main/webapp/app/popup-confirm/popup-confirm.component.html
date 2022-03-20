@@ -1,0 +1,19 @@
+<div class="modal-dialog-confirm">
+  <div class="modal-content" style="padding-right: 10px; padding-left: 10px">
+    <div class="modal-header">
+      <h4 class="modal-title title-popup">{{ title }}</h4>
+      <!-- <button type="button" class="close" (click)="onDismiss()" aria-label="Close">
+                <fa-icon icon="times"></fa-icon>
+            </button> -->
+    </div>
+    <div style="padding: 15px 10px !important">
+      <span class="modal-msg">{{ message }}</span>
+    </div>
+    <div class="modal-footer">
+      <div class="btn-action">
+        <button type="submit" class="btn-save" style="margin-left: 10px" (click)="onConfirm()">Đồng ý</button>
+        <button type="submit" class="btn-cancel" style="margin-left: 10px" (click)="onDismiss()">Đóng</button>
+      </div>
+    </div>
+  </div>
+</div>

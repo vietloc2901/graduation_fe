@@ -26,6 +26,14 @@
         </a>
       </li>
       <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <a class="nav-link" routerLink="/product" (click)="collapseNavbar()">
+          <span>
+            <fa-icon icon="store"></fa-icon>
+            <span>Sản phẩm</span>
+          </span>
+        </a>
+      </li>
+      <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
         <a class="nav-link" routerLink="/cart" (click)="collapseNavbar()">
           <span>
             <fa-icon icon="shopping-cart"></fa-icon>

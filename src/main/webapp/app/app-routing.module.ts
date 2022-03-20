@@ -7,6 +7,9 @@ import { DEBUG_INFO_ENABLED } from 'app/app.constants';
 import { Authority } from 'app/config/authority.constants';
 
 import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
+import { ProductDetailComponent } from './product-detail/product-detail.component';
+import { ProductComponent } from './product/product.component';
+import { CartComponent } from './cart/cart.component';
 
 const LAYOUT_ROUTES = [navbarRoute, ...errorRoute];
 
@@ -29,6 +32,22 @@ const LAYOUT_ROUTES = [navbarRoute, ...errorRoute];
         {
           path: 'login',
           loadChildren: () => import('./login/login.module').then(m => m.LoginModule),
+        },
+        {
+          path: 'product-detail/:id',
+          component: ProductDetailComponent,
+        },
+        {
+          path: 'product',
+          component: ProductComponent,
+        },
+        {
+          path: 'cart',
+          component: CartComponent,
+        },
+        {
+          path: 'cart/:id',
+          component: CartComponent,
         },
         ...LAYOUT_ROUTES,
       ],

@@ -6,6 +6,10 @@ import { ToastrService } from 'ngx-toastr';
 import { MatDialog } from '@angular/material/dialog';
 import { CommonServiceService } from 'app/core/service/common-service.service';
 import { CatalogService } from 'app/core/service/catalog.service';
+import { ProductService } from 'app/core/service/product.service';
+import { CurrencyPipe } from '@angular/common';
+import { Router } from '@angular/router';
+import { ActionProductComponent } from './action-product/action-product.component';
 
 @Component({
   selector: 'jhi-products',
@@ -17,6 +21,7 @@ export class ProductsComponent implements OnInit {
   codeSearch;
   nameSearch;
   parentIdSearch;
+  statusSearch;
   placeHolder = 'Danh mục';
   nodes: any = [];
   hide = true;
@@ -33,8 +38,16 @@ export class ProductsComponent implements OnInit {
   frameworkComponents;
   currentRoles = [];
   isRole: boolean;
-
-  isCreateNew: boolean;
+  listStatus = [
+    {
+      id: 1,
+      name: 'Kinh doanh',
+    },
+    {
+      id: 0,
+      name: 'Ngừng kinh doanh',
+    },
+  ];
 
   constructor(
     private toastr: ToastrService,
@@ -44,7 +57,9 @@ export class ProductsComponent implements OnInit {
     private formBuilder: FormBuilder,
     private modalService: BsModalService,
     private renderer: Renderer2,
-    private catalogService: CatalogService
+    private catalogService: CatalogService,
+    private productService: ProductService,
+    public router: Router
   ) {
     this.columnDefs = [
       {
@@ -55,7 +70,6 @@ export class ProductsComponent implements OnInit {
         field: 'id',
         minWidth: 48,
         maxWidth: 48,
-        headerClass: 'center unPadding',
         cellStyle: {
           'font-weight': '500',
           'font-size': '12px',
@@ -114,9 +128,75 @@ export class ProductsComponent implements OnInit {
         tooltipField: 'name',
       },
       {
+        headerName: 'Danh mục',
+        headerTooltip: 'Danh mục',
+        field: 'catalogName',
+        suppressMovable: true,
+        minWidth: 128,
+        width: 128,
+        cellStyle: {
+          'font-weight': '500',
+          'font-size': '12px',
+          'align-items': 'center',
+          color: '#101840',
+          //display: 'flex',
+          top: '12px',
+          'white-space': 'nowrap',
+          'text-overflow': 'ellipsis',
+          overflow: 'hidden',
+        },
+        tooltipField: 'catalogName',
+      },
+      {
+        headerName: 'Giá bán',
+        headerTooltip: 'Giá bán',
+        field: 'price',
+        valueFormatter: this.formatCurrency,
+        suppressMovable: true,
+        width: 128,
+        cellStyle: {
+          'font-weight': '500',
+          'font-size': '12px',
+          'align-items': 'center',
+          color: '#101840',
+          //display: 'flex',
+          top: '12px',
+          'white-space': 'nowrap',
+          'text-overflow': 'ellipsis',
+          overflow: 'hidden',
+        },
+        tooltipField: 'price',
+      },
+      {
+        headerName: 'Trạng thái',
+        headerTooltip: 'Trạng thái',
+        field: 'status',
+        valueFormatter: this.formatStatus,
+        tooltipValueGetter: params => {
+          return this.formatStatus(params);
+        },
+        suppressMovable: true,
+        width: 128,
+        cellStyle: {
+          'font-weight': '500',
+          'font-size': '12px',
+          'align-items': 'center',
+          color: '#101840',
+          //display: 'flex',
+          top: '12px',
+          'white-space': 'nowrap',
+          'text-overflow': 'ellipsis',
+          overflow: 'hidden',
+        },
+      },
+      {
         headerName: 'Ngày sửa cuối',
         headerTooltip: 'Ngày sửa cuối',
         field: 'lastModifiedDate',
+        valueFormatter: this.dateFormatter,
+        tooltipValueGetter: params => {
+          return this.dateFormatter(params);
+        },
         suppressMovable: true,
         minWidth: 128,
         width: 128,
@@ -142,11 +222,9 @@ export class ProductsComponent implements OnInit {
         suppressMovable: true,
         minWidth: 128,
         width: 128,
-        cellClass: 'grid-cell-centered',
         cellStyle: {
           'font-weight': '500',
           'font-size': '12px',
-          'align-items': 'center',
           'margin-left': '5px',
           color: '#101840',
           //display: 'flex',
@@ -162,7 +240,7 @@ export class ProductsComponent implements OnInit {
         field: 'undefined',
         suppressMovable: true,
         //displayce: 'nowrap',
-        cellRendererFramework: '',
+        cellRendererFramework: ActionProductComponent,
         minWidth: 48,
         maxWidth: 48,
       },
@@ -190,6 +268,7 @@ export class ProductsComponent implements OnInit {
       this.removeExpand(res);
       this.nodes = res;
     });
+    this.search(1);
   }
 
   removeExpand(catalogstList: any) {
@@ -207,12 +286,21 @@ export class ProductsComponent implements OnInit {
     }
   }
 
+  formatCurrency(params) {
+    return params.value.toLocaleString('vi-VI', { style: 'currency', currency: 'VND' });
+  }
+
   gridSizeChanged(params) {
     params.api.sizeColumnsToFit();
   }
 
   dateFormatter(params) {
-    return new Date(Date.parse(params.value)).toLocaleTimeString();
+    return new Date(Date.parse(params.value)).toLocaleString();
+  }
+
+  formatStatus(params) {
+    if (params.value === true) return 'Kinh doanh';
+    else return 'Ngừng kinh doanh';
   }
 
   totalRecord = 0;
@@ -238,7 +326,32 @@ export class ProductsComponent implements OnInit {
       this.gridApi.showLoadingOverlay();
     } catch (e) {}
     this.page = page;
-    this.hide = false;
+    const data = {
+      code: this.codeSearch,
+      name: this.nameSearch,
+      catalogId: this.parentIdSearch,
+      status: this.statusSearch,
+    };
+    this.productService.search(data, page, this.pageSize).subscribe(
+      (res: any) => {
+        this.rowData = res.data;
+        this.totalRecord = res.total;
+        this.first = (page - 1) * this.pageSize + 1;
+        this.last = this.first + this.rowData.length - 1;
+        if (this.totalRecord % this.pageSize === 0) {
+          this.totalPage = Math.floor(this.totalRecord / this.pageSize);
+          this.rangeWithDots = this.commonService.pagination(this.page, this.totalPage);
+        } else {
+          this.totalPage = Math.floor(this.totalRecord / this.pageSize) + 1;
+          this.rangeWithDots = this.commonService.pagination(this.page, this.totalPage);
+        }
+        this.hide = true;
+        this.gridApi.sizeColumnsToFit();
+        this.gridApi.setRowData(this.rowData);
+        this.changeDetectorRef.detectChanges();
+      },
+      err => {}
+    );
   }
 
   buildForm() {
@@ -278,27 +391,11 @@ export class ProductsComponent implements OnInit {
     this.search(this.page);
   }
 
-  //======================Open Modal=======================
-  // openModalDocument() {
-  //   const dataAdd : any = {};
-  //   dataAdd.listDocumentAdd = this.listDocumentAdd;
-  //   dataAdd.listSigner = this.listSigner;
-  //   this.isCreateNew = true;
-  //   dataAdd.isCreateNew = this.isCreateNew;
-  //   this.matDialog.open(
-  //     CreateOfficalLetterComponent,{
-  //       data: dataAdd,
-  //       maxHeight: window.innerHeight + 'px',
-  //       disableClose: true,
-  //       hasBackdrop: true,
-  //       width: '446px',
-  //       autoFocus: false,
-  //     }
-  //   ).afterClosed().subscribe((res) => {
-  //     console.log(res);
-  //     if(res.event != 'cancel'){
-  //       this.search(1);
-  //     }
-  //   });
-  // }
+  routerToCreatePage() {
+    this.router.navigate(['admin/create-update-product']);
+  }
+
+  routerToUpdatePage(id) {
+    this.router.navigate(['admin/create-update-product', id]);
+  }
 }

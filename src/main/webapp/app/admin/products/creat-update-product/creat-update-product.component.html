@@ -1,0 +1,180 @@
+<div style="position: relative">
+  <!-- <div id="loadpagepr" [ngClass]="{'page-loading-class' : isLoading}" >
+      <div id="loadpage" class="bee-spinner-sc"></div>
+    </div> -->
+  <div>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="row" style="margin-left: 12px">
+        <h3 class="title-tab" style="margin-bottom: 15px">
+          {{ getTitle() }}
+        </h3>
+      </div>
+      <input type="hidden" formControlName="" id />
+      <div class="row" style="margin-right: 0">
+        <div class="col-md-6 upload-avatar">
+          <input type="file" name="image" hidden id="upload1" #imageInput (change)="processFile(imageInput)" />
+          <label style="width: 62px; height: 58px" for="upload1">
+            <img class="avatar-img" [class.scale-up-img]="productImage" [src]="imageUrl" />
+          </label>
+          <label id="upload-image" class="btn-upload-image" for="upload1">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M7.69882 7.5628L6.29258 5.45342C6.16212 5.25771 5.83801 5.25771 5.70755 5.45342L4.30131 7.5628C4.22954 7.67061 4.2227 7.80931 4.2838 7.92364C4.3449 8.03797 4.46403 8.10938 4.59381 8.10938H4.94537V10.5703C4.94537 10.7646 5.10261 10.9219 5.29693 10.9219H6.70318C6.8975 10.9219 7.05474 10.7646 7.05474 10.5703V8.10938H7.4063C7.53607 8.10938 7.65521 8.03797 7.71633 7.92364C7.77746 7.80931 7.77056 7.67061 7.69882 7.5628Z"
+                fill="white"
+              />
+              <path
+                d="M10.206 4.11183C10.1751 3.69169 10.0045 3.29975 9.70413 2.99935C9.24981 2.54503 8.56588 2.40917 7.96511 2.57689C7.38742 1.64796 6.39362 1.07812 5.29689 1.07812C3.64824 1.07812 2.29041 2.34532 2.14861 3.98642C0.918471 4.29713 0 5.41738 0 6.70314C0 8.25393 1.28515 9.51564 2.83594 9.51564H4.2422V8.75245C3.99774 8.66627 3.79004 8.49152 3.66369 8.25496C3.48001 7.91197 3.50026 7.49725 3.71588 7.17315L5.12249 5.06342C5.31439 4.77537 5.64261 4.60372 6.00001 4.60372C6.35741 4.60372 6.68563 4.77537 6.87754 5.06342L8.28379 7.1728C8.49974 7.49725 8.51999 7.91197 8.33631 8.25496C8.20996 8.49152 8.00226 8.66627 7.7578 8.75245V9.51564H9.16406C10.7148 9.51564 12 8.25393 12 6.70314C12 5.54286 11.2722 4.53645 10.206 4.11183Z"
+                fill="white"
+              />
+            </svg>
+            <span style="font-size: 12px; line-height: 18px; font-weight: 600; color: #ffffff">Upload</span>
+          </label>
+          <!-- <div *ngIf="(getControl.productImage.dirty || getControl.productImage.touched) && getControl.productImage.invalid">
+                <span class="error-validate" *ngIf="getControl.productImage.errors.required">Hình ảnh không được để trống!</span>
+            </div> -->
+        </div>
+        <div class="col-md-6">
+          <nz-tree-select
+            formControlName="catalog"
+            style="width: 80%; max-width: 80%"
+            #tree
+            (keydown.enter)="tree.openDropdown()"
+            [nzDefaultExpandAll]="true"
+            tabindex="0"
+            [nzNodes]="listCatalog"
+            [nzPlaceHolder]="placeHolder"
+            nzShowSearch
+            [nzShowIcon]="true"
+          ></nz-tree-select>
+          <div *ngIf="(getControl.catalog.dirty || getControl.catalog.touched) && getControl.catalog.invalid">
+            <span class="error-validate" *ngIf="getControl.catalog.errors.required">Mã danh mục không được để trống!</span>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <label>Mã sản phẩm <span>*</span></label>
+          <input [matTooltip]="getControl.code.value" [readonly]="!isCreate" type="text" name="code" id="code" formControlName="code" />
+          <div *ngIf="(getControl.code.dirty || getControl.code.touched) && getControl.code.invalid">
+            <span class="error-validate" *ngIf="getControl.code.errors.required">Mã sản phẩm không được để trống!</span>
+          </div>
+          <div *ngIf="(getControl.code.dirty || getControl.code.touched) && getControl.code.invalid">
+            <span class="error-validate" *ngIf="getControl.code.errors?.maxlength">Mã sản phẩm không quá 50 ký tự!</span>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <label>Tên sản phẩm <span>*</span></label>
+          <input [matTooltip]="getControl.name.value" type="text" name="name" id="name" formControlName="name" />
+          <div *ngIf="(getControl.name.dirty || getControl.name.touched) && getControl.name.invalid">
+            <span class="error-validate" *ngIf="getControl.name.errors.required">Tên sản phẩm không được để trống!</span>
+          </div>
+          <div *ngIf="(getControl.name.dirty || getControl.name.touched) && getControl.name.invalid">
+            <span class="error-validate" *ngIf="getControl.name.errors?.maxlength">Tên sản phẩm không quá 250 ký tự!</span>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <label>Thương hiệu</label>
+          <input [matTooltip]="getControl.brand.value" type="text" name="brand" id="brand" formControlName="brand" />
+          <div *ngIf="(getControl.brand.dirty || getControl.brand.touched) && getControl.brand.invalid">
+            <span class="error-validate" *ngIf="getControl.brand.errors.required">Tên thương hiệu không được để trống!</span>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <label>Giá <span>*</span></label>
+          <input [matTooltip]="getControl.price.value" min="0" type="number" name="price" id="price" formControlName="price" />
+          <div *ngIf="(getControl.price.dirty || getControl.price.touched) && getControl.price.invalid">
+            <span class="error-validate" *ngIf="getControl.price.errors.required">Giá sản phẩm được để trống!</span>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label>Thông tin sản phẩm</label>
+          <kendo-editor formControlName="productDetails" style="height: 500px">
+            <kendo-toolbar>
+              <kendo-toolbar-buttongroup>
+                <kendo-toolbar-button kendoEditorBoldButton></kendo-toolbar-button>
+                <kendo-toolbar-button kendoEditorItalicButton></kendo-toolbar-button>
+                <kendo-toolbar-button kendoEditorUnderlineButton></kendo-toolbar-button>
+                <kendo-toolbar-button kendoEditorStrikethroughButton></kendo-toolbar-button>
+              </kendo-toolbar-buttongroup>
+              <kendo-toolbar-buttongroup>
+                <kendo-toolbar-button kendoEditorAlignLeftButton></kendo-toolbar-button>
+                <kendo-toolbar-button kendoEditorAlignCenterButton></kendo-toolbar-button>
+                <kendo-toolbar-button kendoEditorAlignRightButton></kendo-toolbar-button>
+                <kendo-toolbar-button kendoEditorAlignJustifyButton></kendo-toolbar-button>
+              </kendo-toolbar-buttongroup>
+              <kendo-toolbar-buttongroup>
+                <kendo-toolbar-button kendoEditorInsertUnorderedListButton></kendo-toolbar-button>
+                <kendo-toolbar-button kendoEditorInsertOrderedListButton></kendo-toolbar-button>
+                <kendo-toolbar-button kendoEditorIndentButton></kendo-toolbar-button>
+                <kendo-toolbar-button kendoEditorOutdentButton></kendo-toolbar-button>
+              </kendo-toolbar-buttongroup>
+              <kendo-toolbar-dropdownlist kendoEditorFontFamily></kendo-toolbar-dropdownlist>
+              <kendo-toolbar-dropdownlist kendoEditorFontSize></kendo-toolbar-dropdownlist>
+              <kendo-toolbar-colorpicker kendoEditorForeColor></kendo-toolbar-colorpicker>
+            </kendo-toolbar>
+          </kendo-editor>
+        </div>
+        <div class="col-md-6">
+          <label>Bài viết mô tả</label>
+          <kendo-editor formControlName="descriptionDocument" style="height: 500px">
+            <kendo-toolbar>
+              <kendo-toolbar-buttongroup>
+                <kendo-toolbar-button kendoEditorBoldButton></kendo-toolbar-button>
+                <kendo-toolbar-button kendoEditorItalicButton></kendo-toolbar-button>
+                <kendo-toolbar-button kendoEditorUnderlineButton></kendo-toolbar-button>
+                <kendo-toolbar-button kendoEditorStrikethroughButton></kendo-toolbar-button>
+              </kendo-toolbar-buttongroup>
+              <kendo-toolbar-buttongroup>
+                <kendo-toolbar-button kendoEditorAlignLeftButton></kendo-toolbar-button>
+                <kendo-toolbar-button kendoEditorAlignCenterButton></kendo-toolbar-button>
+                <kendo-toolbar-button kendoEditorAlignRightButton></kendo-toolbar-button>
+                <kendo-toolbar-button kendoEditorAlignJustifyButton></kendo-toolbar-button>
+              </kendo-toolbar-buttongroup>
+              <kendo-toolbar-buttongroup>
+                <kendo-toolbar-button kendoEditorInsertUnorderedListButton></kendo-toolbar-button>
+                <kendo-toolbar-button kendoEditorInsertOrderedListButton></kendo-toolbar-button>
+                <kendo-toolbar-button kendoEditorIndentButton></kendo-toolbar-button>
+                <kendo-toolbar-button kendoEditorOutdentButton></kendo-toolbar-button>
+              </kendo-toolbar-buttongroup>
+              <kendo-toolbar-dropdownlist kendoEditorFontFamily></kendo-toolbar-dropdownlist>
+              <kendo-toolbar-dropdownlist kendoEditorFontSize></kendo-toolbar-dropdownlist>
+              <kendo-toolbar-colorpicker kendoEditorForeColor></kendo-toolbar-colorpicker>
+            </kendo-toolbar>
+          </kendo-editor>
+        </div>
+        <div class="col-md-12" style="height: 20px"></div>
+        <div class="col-md-6">
+          <label>Thông số kỹ thuật</label>
+          <div *ngFor="let item of numberSpec">
+            <input type="text" placeholder="Thuộc tính" [(ngModel)]="item.key" [ngModelOptions]="{ standalone: true }" />
+            <input type="text" placeholder="Giá trị" [(ngModel)]="item.value" [ngModelOptions]="{ standalone: true }" />
+            <button type="button" class="btn-save" (click)="deleteSpec(item)">Xóa</button>
+            <div style="height: 10px"></div>
+          </div>
+          <button type="button" class="btn-save" style="margin-left: 15px" (click)="addItem()">Thêm thuộc tính</button>
+        </div>
+        <div class="col-md-6">
+          <label>Trạng thái</label>
+          <ng-select
+            [items]="listStatus"
+            style="font-size: 12px"
+            formControlName="status"
+            bindLabel="name"
+            bindValue="id"
+            [clearable]="false"
+            [searchable]="false"
+          >
+            <ng-template ng-option-tmp let-item="item">
+              <div title="{{ item.name }}" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap">{{ item.name }}</div>
+            </ng-template>
+          </ng-select>
+        </div>
+      </div>
+      <div class="col-md-12" style="height: 10px"></div>
+      <div class="modal-footer">
+        <div class="btn-action">
+          <button type="submit" class="btn-md btn-or" *ngIf="isCreate">Thêm mới</button>
+          <button type="submit" class="btn-md btn-or" *ngIf="!isCreate">Cập nhật</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

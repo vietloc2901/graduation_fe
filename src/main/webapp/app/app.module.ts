@@ -34,6 +34,10 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NzTreeSelectModule } from 'ng-zorro-antd/tree-select';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { RouterModule } from '@angular/router';
+import { ProductDetailComponent } from './product-detail/product-detail.component';
+import { ProductComponent } from './product/product.component';
+import { CartComponent } from './cart/cart.component';
 @NgModule({
   imports: [
     BrowserModule,
@@ -58,6 +62,8 @@ import { ModalModule } from 'ngx-bootstrap/modal';
       timeOut: 2000,
     }),
     AgGridModule.withComponents([]),
+    RouterModule,
+    HomeModule,
   ],
   providers: [
     Title,
@@ -65,7 +71,16 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     { provide: NgbDateAdapter, useClass: NgbDateDayjsAdapter },
     httpInterceptorProviders,
   ],
-  declarations: [MainComponent, NavbarComponent, ErrorComponent, PageRibbonComponent, FooterComponent],
+  declarations: [
+    MainComponent,
+    NavbarComponent,
+    ErrorComponent,
+    PageRibbonComponent,
+    FooterComponent,
+    ProductDetailComponent,
+    ProductComponent,
+    CartComponent,
+  ],
   bootstrap: [MainComponent],
 })
 export class AppModule {

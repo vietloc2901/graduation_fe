@@ -4,6 +4,7 @@ import { CatalogsComponent } from './catalogs/catalogs.component';
 import { OrdersComponent } from './orders/orders.component';
 import { ProductsComponent } from './products/products.component';
 import { UserManagementComponent } from './user-management/user-management.component';
+import { CreatUpdateProductComponent } from './products/creat-update-product/creat-update-product.component';
 /* jhipster-needle-add-admin-module-import - JHipster will add admin modules imports here */
 
 @NgModule({
@@ -19,16 +20,24 @@ import { UserManagementComponent } from './user-management/user-management.compo
       },
       {
         path: 'catalog-management',
-        component: CatalogsComponent
+        component: CatalogsComponent,
       },
       {
         path: 'product-management',
-        component: ProductsComponent
+        component: ProductsComponent,
       },
       {
         path: 'order-management',
-        component: OrdersComponent
-      }
+        component: OrdersComponent,
+      },
+      {
+        path: 'create-update-product',
+        component: CreatUpdateProductComponent,
+      },
+      {
+        path: 'create-update-product/:id',
+        component: CreatUpdateProductComponent,
+      },
       /* jhipster-needle-add-admin-route - JHipster will add admin routes here */
     ]),
   ],

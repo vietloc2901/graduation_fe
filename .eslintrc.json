@@ -21,7 +21,7 @@
   },
   "rules": {
     "@angular-eslint/component-selector": [
-      "error",
+      "off",
       {
         "type": "element",
         "prefix": "jhi",
@@ -77,7 +77,8 @@
     "no-useless-escape": "off",
     "no-empty": "off",
     "eqeqeq": "off",
-    "guard-for-in": "error",
+    "guard-for-in": "off",
+    "no-extra-boolean-cast": "off",
     "no-bitwise": "error",
     "no-caller": "error",
     "no-console": "off",
