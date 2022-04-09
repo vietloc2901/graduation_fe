@@ -7,6 +7,7 @@ import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/auth/account.model';
 import { CatalogService } from 'app/core/service/catalog.service';
 import { ProductService } from 'app/core/service/product.service';
+import { CartService } from 'app/core/service/cart.service';
 
 @Component({
   selector: 'jhi-home',
@@ -22,7 +23,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     private accountService: AccountService,
     private router: Router,
     private catalogService: CatalogService,
-    private productService: ProductService
+    private productService: ProductService,
+    private cartService: CartService
   ) {}
 
   ngOnInit(): void {
@@ -41,6 +43,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  addToCart(data, quantity) {
+    this.cartService.addToCart(data, quantity);
   }
 
   search() {

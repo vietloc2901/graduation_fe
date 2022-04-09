@@ -1,1 +1,178 @@
-<p>cart works!</p>
+<div class="cart-main-area ptb-100 ptb-sm-60">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 col-sm-12">
+        <!-- Form Start -->
+        <div>
+          <div class="table-content table-responsive mb-45">
+            <!-- Table Content Start -->
+            <h2 *ngIf="listCartItem.length <= 0">Chưa có sản phẩm nào trong giỏ hàng</h2>
+
+            <div *ngIf="listCartItem.length > 0">
+              <table>
+                <thead>
+                  <tr>
+                    <th class="product-thumbnail">Ảnh</th>
+                    <th class="product-name">Sản phẩm</th>
+                    <th class="product-price">Giá</th>
+                    <th class="product-quantity">Số lượng</th>
+                    <th class="product-subtotal">Tổng</th>
+                    <th class="product-remove">Xóa</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of listCartItem">
+                    <td class="product-thumbnail">
+                      <img [src]="item.image" />
+                    </td>
+                    <td class="product-name">
+                      <a (click)="routerToDetails(item)">{{ item.name }}</a>
+                    </td>
+                    <td class="product-price">
+                      <a>{{ formatCurrency(item.price) }}</a>
+                    </td>
+                    <td class="product-name">
+                      <a>{{ item.quantity }}</a>
+                    </td>
+                    <td class="product-name">
+                      <a>{{ formatCurrency(item.quantity * item.price) }}</a>
+                    </td>
+                    <td>
+                      <button type="button" class="btn-save" (click)="remove(item)">Xóa</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div style="height: 30px"></div>
+          <!-- Table Content Start -->
+          <div class="row">
+            <!-- Cart Button Start -->
+            <div class="col-md-8 col-sm-12">
+              <div class="buttons-cart"></div>
+            </div>
+            <!-- Cart Button Start -->
+            <!-- Cart Totals Start -->
+            <div class="col-md-4 col-sm-12">
+              <div class="cart_totals float-md-right text-md-right">
+                <div *ngIf="listCartItem.length > 0">
+                  <table class="float-md-right">
+                    <tbody>
+                      <tr class="order-total">
+                        <th>Tổng</th>
+                        <td>
+                          <strong
+                            ><span class="amount" id="order-total">{{ formatCurrency(money) }}</span></strong
+                          >
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="wc-proceed-to-checkout"></div>
+              </div>
+            </div>
+            <!-- Cart Totals End -->
+          </div>
+          <!-- Row End -->
+        </div>
+        <!-- Form End -->
+      </div>
+    </div>
+    <!-- Row End -->
+  </div>
+</div>
+<div class="form" *ngIf="listCartItem.length > 0">
+  <div class="modal-dialog-custom modal-custom-action">
+    <div class="modal-body" style="padding: 15px 10px !important">
+      <div class="row">
+        <div class="col-md-6">
+          <label for="">Tên người đặt: </label>
+          <input
+            #focusInput
+            style="font-size: 12px"
+            type="text"
+            placeholder="Tên người nhận"
+            [(ngModel)]="send.name.value"
+            [ngModelOptions]="{ standalone: true }"
+          />
+          <small class="error-validate" style="color: red" *ngIf="send.name.error">
+            {{ send.name.message }}
+          </small>
+        </div>
+        <div class="col-md-6">
+          <label for="">Số điện thoại đặt: </label>
+          <input
+            style="font-size: 12px !important"
+            type="text"
+            placeholder="Số điện thoaị"
+            [(ngModel)]="send.phone.value"
+            [ngModelOptions]="{ standalone: true }"
+          />
+          <small class="error-validate" style="color: red" *ngIf="send.phone.error">
+            {{ send.phone.message }}
+          </small>
+        </div>
+        <div class="col-md-6">
+          <label for="">Tên người nhận: </label>
+          <input
+            #focusInput
+            style="font-size: 12px"
+            type="text"
+            placeholder="Tên người nhận"
+            [(ngModel)]="send.receiverName.value"
+            [ngModelOptions]="{ standalone: true }"
+          />
+          <small class="error-validate" style="color: red" *ngIf="send.receiverName.error">
+            {{ send.receiverName.message }}
+          </small>
+        </div>
+        <div class="col-md-6">
+          <label for="">Số điện thoại nhận: </label>
+          <input
+            style="font-size: 12px !important"
+            type="text"
+            placeholder="Số điện thoaị"
+            [(ngModel)]="send.receiverPhone.value"
+            [ngModelOptions]="{ standalone: true }"
+          />
+          <small class="error-validate" style="color: red" *ngIf="send.receiverPhone.error">
+            {{ send.receiverPhone.message }}
+          </small>
+        </div>
+        <div class="col-md-6">
+          <label for="">Địa chỉ nhận: </label>
+          <input
+            style="font-size: 12px !important"
+            type="text"
+            placeholder="Địa chỉ nhận"
+            [(ngModel)]="send.address.value"
+            [ngModelOptions]="{ standalone: true }"
+          />
+          <small class="error-validate" style="color: red" *ngIf="send.address.error">
+            {{ send.address.message }}
+          </small>
+        </div>
+        <div class="col-md-6">
+          <label for="">Email: </label>
+          <input
+            style="font-size: 12px !important"
+            type="text"
+            placeholder="Email"
+            [(ngModel)]="send.email.value"
+            [ngModelOptions]="{ standalone: true }"
+          />
+          <small class="error-validate" style="color: red" *ngIf="send.email.error">
+            {{ send.email.message }}
+          </small>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <div class="btn-action">
+        <button (click)="create()" type="button" class="btn-md btn-or">Đặt hàng</button>
+      </div>
+    </div>
+  </div>
+</div>

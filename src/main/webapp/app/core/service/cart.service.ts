@@ -7,6 +7,7 @@ import { HelperService } from './helper.service';
 import { CommonServiceService } from './common-service.service';
 import { ApplicationConfigService } from '../config/application-config.service';
 import { SessionStorageService } from 'ngx-webstorage';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root',
@@ -26,9 +27,9 @@ export class CartService extends BasicService {
     private http: HttpClient,
     private commonService: CommonServiceService,
     public helperService: HelperService,
-    private applicationConfigService: ApplicationConfigService
-  ) // private sessionStorage : SessionStorageService
-  {
+    private applicationConfigService: ApplicationConfigService,
+    private toaStr: ToastrService // private sessionStorage : SessionStorageService
+  ) {
     super(http, helperService);
   }
 
@@ -37,35 +38,59 @@ export class CartService extends BasicService {
   }
 
   getCart() {
-    return this.http.post<any>(`${this.applicationConfigService.getEndpointFor('api/cart/getCart')}`, null);
-  }
-
-  addToCart(data) {
-    if (this.loggedIn()) {
-      this.http.post<any>(`${this.applicationConfigService.getEndpointFor('api/cart-item')}`, data);
+    var cart = sessionStorage.getItem('cart');
+    if (cart == null) {
+      return [];
     } else {
-      let cart = sessionStorage.getItem('cart');
-      if (cart == null) {
-        let orderCart = [];
-        orderCart.push({ id: data.id, quantity: data.quantity, name: data.name, price: data.price, image: data.image });
-        sessionStorage.setItem('cart', JSON.stringify(orderCart));
-      } else {
-        let orderCart = JSON.parse(cart);
-        orderCart.forEach(element => {
-          if (element.id === data.id) {
-            element.quantity = element.quantity + data.quantity;
-          }
-        });
-        orderCart.push({ id: data.id, quantity: data.quantity, name: data.name, price: data.price, image: data.image });
-      }
+      return JSON.parse(cart);
     }
   }
 
-  searchForViewProducts(data, page, pageSize) {
-    return this.http.post<any>(
-      `${this.applicationConfigService.getEndpointFor('api/products/searchForViewProduct')}?page=${page}&pageSize=${pageSize}`,
-      data
-    );
+  addToCart(data, quantity) {
+    let isNew = true;
+    // if (this.loggedIn()) {
+    //   this.http.post<any>(`${this.applicationConfigService.getEndpointFor('api/cart-item')}`, data);
+    // } else {
+    let cart = sessionStorage.getItem('cart');
+    console.log(cart);
+    if (cart == null) {
+      let orderCart = [];
+      orderCart.push({ productId: data.id, quantity: quantity, name: data.name, price: data.price, image: data.image });
+      sessionStorage.setItem('cart', JSON.stringify(orderCart));
+    } else {
+      let orderCart = JSON.parse(cart);
+      orderCart.forEach(element => {
+        if (element.productId === data.id) {
+          element.quantity = element.quantity + quantity;
+          isNew = false;
+        }
+      });
+      if (isNew) {
+        orderCart.push({ productId: data.id, quantity: quantity, name: data.name, price: data.price, image: data.image });
+      }
+      sessionStorage.setItem('cart', JSON.stringify(orderCart));
+      this.toaStr.success('Đã thêm sản phẩm vào giỏ hàng');
+    }
+    // }
+  }
+
+  remove(data) {
+    let cart = sessionStorage.getItem('cart');
+    if (cart == null) {
+      return;
+    }
+    let cartOrder = JSON.parse(cart);
+    cartOrder = cartOrder.filter(x => x.productId !== data.id);
+    sessionStorage.setItem('cart', JSON.stringify(cartOrder));
+    this.toaStr.success('Đã xóa sản phẩm vào giỏ hàng');
+  }
+
+  createOrder(data) {
+    return this.http.post<any>(`${this.applicationConfigService.getEndpointFor('api/orders/create')}`, data);
+  }
+
+  removeCart() {
+    sessionStorage.removeItem('cart');
   }
 
   searchForView(data) {
