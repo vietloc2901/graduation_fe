@@ -6,6 +6,7 @@ import { BasicService } from './basic.service';
 import { HelperService } from './helper.service';
 import { CommonServiceService } from './common-service.service';
 import { ApplicationConfigService } from '../config/application-config.service';
+import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root',
@@ -74,5 +75,10 @@ export class ProductService extends BasicService {
 
   deleteSpec(data) {
     return this.http.post<any>(`${this.applicationConfigService.getEndpointFor('api/product-specs/delete')}`, data, this.httpOptions);
+  }
+
+  export(data) {
+    let url = this.applicationConfigService.getEndpointFor('api/products/exportExcel');
+    return this.commonService.downloadFile(url, data, null, 'DSsanpham' + `${moment().format('DDMMYYYY').toString()}.xlsx`);
   }
 }

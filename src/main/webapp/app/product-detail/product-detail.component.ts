@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { CartService } from 'app/core/service/cart.service';
 import { ProductService } from 'app/core/service/product.service';
 import { Toast, ToastrService } from 'ngx-toastr';
 
@@ -12,9 +13,19 @@ export class ProductDetailComponent implements OnInit {
   productId;
   numberSpec;
   imageUrl;
-  data;
+  data: any = {
+    name: '',
+    code: '',
+    price: 0,
+  };
   listSame;
-  constructor(private productService: ProductService, public router: Router, private route: ActivatedRoute, private toaStr: ToastrService) {
+  constructor(
+    private productService: ProductService,
+    public router: Router,
+    private route: ActivatedRoute,
+    private toaStr: ToastrService,
+    private cartService: CartService
+  ) {
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.productId = +params.get('id');
     });
@@ -32,6 +43,10 @@ export class ProductDetailComponent implements OnInit {
       }
     });
     this.loadSameProduct();
+  }
+
+  addToCart() {
+    this.cartService.addToCart(this.data, 1);
   }
 
   loadSameProduct() {

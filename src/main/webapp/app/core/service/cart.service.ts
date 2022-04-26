@@ -74,13 +74,31 @@ export class CartService extends BasicService {
     // }
   }
 
+  changeCart(data) {
+    let cart = sessionStorage.getItem('cart');
+    if (cart == null) {
+      let orderCart = [];
+      orderCart.push({ productId: data.id, quantity: data.quantity, name: data.name, price: data.price, image: data.image });
+      sessionStorage.setItem('cart', JSON.stringify(orderCart));
+    } else {
+      let orderCart = JSON.parse(cart);
+      orderCart.forEach(element => {
+        if (element.productId === data.productId) {
+          element.quantity = data.quantity;
+        }
+      });
+      sessionStorage.setItem('cart', JSON.stringify(orderCart));
+    }
+  }
+
   remove(data) {
+    console.log(data);
     let cart = sessionStorage.getItem('cart');
     if (cart == null) {
       return;
     }
     let cartOrder = JSON.parse(cart);
-    cartOrder = cartOrder.filter(x => x.productId !== data.id);
+    cartOrder = cartOrder.filter(x => x.productId !== data.productId);
     sessionStorage.setItem('cart', JSON.stringify(cartOrder));
     this.toaStr.success('Đã xóa sản phẩm vào giỏ hàng');
   }

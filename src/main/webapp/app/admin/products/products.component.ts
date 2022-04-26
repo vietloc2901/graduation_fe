@@ -321,6 +321,16 @@ export class ProductsComponent implements OnInit {
     }, 50);
   }
 
+  exportExcel() {
+    let data = {
+      code: this.codeSearch,
+      name: this.nameSearch,
+      catalogId: this.parentIdSearch,
+      status: this.statusSearch,
+    };
+    this.productService.export(data);
+  }
+
   search(page: number) {
     try {
       this.gridApi.showLoadingOverlay();

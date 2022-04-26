@@ -62,6 +62,19 @@ export class CartComponent implements OnInit {
     },
   };
 
+  OnKeyDown(event) {
+    return false;
+  }
+  onChange(item) {
+    console.log(item);
+    if (item.quantity <= 0) {
+      this.cartService.remove(item);
+    } else {
+      this.cartService.changeCart(item);
+    }
+    this.getCart();
+  }
+
   formatCurrency(params) {
     return params.toLocaleString('vi-VI', { style: 'currency', currency: 'VND' });
   }

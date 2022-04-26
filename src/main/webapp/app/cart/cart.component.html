@@ -32,7 +32,8 @@
                       <a>{{ formatCurrency(item.price) }}</a>
                     </td>
                     <td class="product-name">
-                      <a>{{ item.quantity }}</a>
+                      <!-- <a>{{ item.quantity }}</a> -->
+                      <input type="number" min="0" [(ngModel)]="item.quantity" (keydown)="OnKeyDown($event)" (change)="onChange(item)" />
                     </td>
                     <td class="product-name">
                       <a>{{ formatCurrency(item.quantity * item.price) }}</a>

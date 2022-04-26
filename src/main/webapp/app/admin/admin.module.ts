@@ -28,6 +28,7 @@ import { UploadModule, UploadService } from '@progress/kendo-angular-upload';
 import { BodyModule, ColumnResizingService, FilterMenuModule, GridModule, PagerModule, SharedModule } from '@progress/kendo-angular-grid';
 import { EditorModule } from '@progress/kendo-angular-editor';
 import { ActionProductComponent } from './products/action-product/action-product.component';
+import { ImportFileCatalogComponent } from './catalogs/import-file-catalog/import-file-catalog.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { ActionProductComponent } from './products/action-product/action-product
     ProductsComponent,
     CreatUpdateProductComponent,
     ActionProductComponent,
+    ImportFileCatalogComponent,
   ],
   imports: [
     AdminRoutingModule,

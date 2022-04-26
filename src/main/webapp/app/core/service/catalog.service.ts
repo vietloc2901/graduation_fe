@@ -6,6 +6,7 @@ import { BasicService } from './basic.service';
 import { HelperService } from './helper.service';
 import { CommonServiceService } from './common-service.service';
 import { ApplicationConfigService } from '../config/application-config.service';
+import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root',
@@ -30,6 +31,27 @@ export class CatalogService extends BasicService {
     super(http, helperService);
   }
 
+  importFile(file: any, isAddNew: any) {
+    const url = this.applicationConfigService.getEndpointFor('api/catalogs/importFile');
+    // const url =`http://localhost:8080/api/students/uploadFile`;
+    const formData: FormData = new FormData();
+    formData.append('file', file ? file : null);
+    formData.append('isAddNew', isAddNew);
+    return this.httpClient.post(url, formData, {
+      observe: 'response',
+    });
+  }
+
+  downloadErrorFile(classroomDTO: any) {
+    const url = this.applicationConfigService.getEndpointFor('api/catalogs/downloadErrorFile');
+    return this.commonService.downloadFile(url, classroomDTO, null, 'DS_ImportLoi.xlsx');
+  }
+
+  downloadSampleFile() {
+    const url = this.applicationConfigService.getEndpointFor('api/catalogs/getSampleFile');
+    return this.commonService.downloadFile(url, null, null, 'DSdanhmucsanphammau.xlsx');
+  }
+
   searchForTree(code?, name?, id?) {
     let param = {
       id: id,
@@ -41,6 +63,11 @@ export class CatalogService extends BasicService {
 
   getCatalog(id) {
     return this.http.get<any>(`${this.applicationConfigService.getEndpointFor('api/catalogs/')}` + id).toPromise();
+  }
+
+  export(data) {
+    let url = this.applicationConfigService.getEndpointFor('api/catalogs/exportExcel');
+    return this.commonService.downloadFile(url, data, null, 'DSdanhmucsanpham' + `${moment().format('DDMMYYYY').toString()}.xlsx`);
   }
 
   checkExist(data) {

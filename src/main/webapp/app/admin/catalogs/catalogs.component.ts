@@ -7,6 +7,7 @@ import { NO_ROW_GRID_TEMPLATE } from '../../app.constants';
 import { ActionCatalogComponent } from './action-catalog/action-catalog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateUpdateCatalogComponent } from './create-update-catalog/create-update-catalog.component';
+import { ImportFileCatalogComponent } from './import-file-catalog/import-file-catalog.component';
 
 @Component({
   selector: 'jhi-catalogs',
@@ -138,6 +139,21 @@ export class CatalogsComponent implements OnInit {
     };
   }
 
+  openImportDialog() {
+    const dataImport: any = {};
+    this.matDialog
+      .open(ImportFileCatalogComponent, {
+        data: dataImport,
+        disableClose: true,
+        hasBackdrop: true,
+        width: '446px',
+      })
+      .afterClosed()
+      .subscribe(res => {
+        console.log('dong import');
+      });
+  }
+
   ngOnInit(): void {
     this.loadingData();
   }
@@ -231,6 +247,14 @@ export class CatalogsComponent implements OnInit {
           this.searchData();
         }
       });
+  }
+
+  exportExcel() {
+    let param = {
+      code: this.codeSearch,
+      name: this.nameSearch,
+    };
+    this.catalogService.export(param);
   }
 }
 
