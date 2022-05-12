@@ -6,6 +6,7 @@ import { BasicService } from './basic.service';
 import { HelperService } from './helper.service';
 import { CommonServiceService } from './common-service.service';
 import { ApplicationConfigService } from '../config/application-config.service';
+import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root',
@@ -37,27 +38,43 @@ export class OrderService extends BasicService {
     );
   }
 
-  searchForView(data) {
-    return this.http.post<any>(`${this.applicationConfigService.getEndpointFor('api/products/specialSearch')}`, data);
+  searchWithAuthority(data, page, pageSize) {
+    return this.http.post<any>(
+      `${this.applicationConfigService.getEndpointFor('api/orders/getWithAuthority')}?page=${page}&pageSize=${pageSize}`,
+      data
+    );
   }
 
-  getProduct(id) {
-    return this.http.get<any>(`${this.applicationConfigService.getEndpointFor('api/products/')}` + id).toPromise();
+  findById(data){
+    return this.http.post<any>(
+      `${this.applicationConfigService.getEndpointFor('api/orders/getById')}`,
+      data
+    );
   }
 
-  create(data) {
-    return this.http.post<any>(`${this.applicationConfigService.getEndpointFor('api/products/create')}`, data);
+  updateStatus(data){
+    return this.http.post<any>(
+      `${this.applicationConfigService.getEndpointFor('api/orders/getChangeStatus')}`,
+      data
+    );
   }
 
-  update(data) {
-    return this.http.post<any>(`${this.applicationConfigService.getEndpointFor('api/products/update')}`, data);
+  exportExcel(data){
+    let url = this.applicationConfigService.getEndpointFor('api/orders/exportExcel');
+    return this.commonService.downloadFile(url, data, null, 'DSdonhang' + `${moment().format('DDMMYYYY').toString()}.xlsx`);
   }
 
-  delete(data) {
-    return this.http.post<any>(`${this.applicationConfigService.getEndpointFor('api/management/catalogs/delete')}`, data, this.httpOptions);
+  cancel(data){
+    return this.http.post<any>(
+      `${this.applicationConfigService.getEndpointFor('api/orders/cancelOrder')}`,
+      data
+    );
   }
 
-  deleteSpec(data) {
-    return this.http.post<any>(`${this.applicationConfigService.getEndpointFor('api/product-specs/delete')}`, data, this.httpOptions);
+  statistic(data){
+    return this.http.post<any>(
+      `${this.applicationConfigService.getEndpointFor('api/statistic')}`,
+      data
+    );
   }
 }

@@ -13,8 +13,9 @@ export class SettingsComponent implements OnInit {
   success = false;
   settingsForm = this.fb.group({
     firstName: [undefined, [Validators.required, Validators.minLength(1), Validators.maxLength(50)]],
-    lastName: [undefined, [Validators.required, Validators.minLength(1), Validators.maxLength(50)]],
+    phone: [undefined, [Validators.required, Validators.minLength(1), Validators.maxLength(50)]],
     email: [undefined, [Validators.required, Validators.minLength(5), Validators.maxLength(254), Validators.email]],
+    address: [undefined, [Validators.required, Validators.minLength(1), Validators.maxLength(250)]],
   });
 
   constructor(private accountService: AccountService, private fb: FormBuilder) {}
@@ -23,9 +24,10 @@ export class SettingsComponent implements OnInit {
     this.accountService.identity().subscribe(account => {
       if (account) {
         this.settingsForm.patchValue({
-          firstName: account.firstName,
-          lastName: account.lastName,
+          firstName: account.fullName,
+          phone: account.phone,
           email: account.email,
+          address: account.address
         });
 
         this.account = account;
@@ -36,9 +38,10 @@ export class SettingsComponent implements OnInit {
   save(): void {
     this.success = false;
 
-    this.account.firstName = this.settingsForm.get('firstName')!.value;
-    this.account.lastName = this.settingsForm.get('lastName')!.value;
+    this.account.fullName = this.settingsForm.get('firstName')!.value;
+    this.account.phone = this.settingsForm.get('phone')!.value;
     this.account.email = this.settingsForm.get('email')!.value;
+    this.account.address = this.settingsForm.get('address')!.value;
 
     this.accountService.save(this.account).subscribe(() => {
       this.success = true;

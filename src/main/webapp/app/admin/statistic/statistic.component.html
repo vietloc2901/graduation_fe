@@ -1,0 +1,190 @@
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="row menu-action-dv">
+            <h3 style="padding-left: 18px; text-transform: uppercase">THỐNG KÊ DOANH THU</h3>
+            <div class="list-action-dv" style="padding-right: 1px;">
+              <div class="btn-action-dv" style="background: #FFFFFF; color: #474D66;width: 158px; background: #FFFFFF; height: 36px; margin-right: 25px;" tabindex="0">
+                <!-- <mat-form-field style=" border-radius: 5px;"> -->
+                  <div class="month-ip" style="cursor: default;">
+                    Tháng
+                  </div>
+                  <input
+                    matInput
+                    readonly
+                    (click)="openPopup()"
+                    [matDatepicker]="dp"
+                    [formControl]="date"
+                    [max]="maxDate"
+                    (dateChange)="searchData()"
+                    class="ip-date"
+                    style="background: none !important; cursor: pointer;"
+                  />
+                  <mat-datepicker-toggle matSuffix [for]="dp" class="mat-picker-ip">
+                    <mat-icon class="mat-icon-ip" matDatepickerToggleIcon></mat-icon>
+                  </mat-datepicker-toggle>
+                  <mat-datepicker
+                    #dp
+                    startView="multi-year"
+                    (yearSelected)="chosenYearHandler($event)"
+                    (monthSelected)="chosenMonthHandler($event, dp)"
+                    panelClass="example-month-picker"
+                    (closed)="onClosed(dp)"
+                  >
+                  </mat-datepicker>
+                <!-- </mat-form-field> -->
+              </div>
+            </div>
+          </div>
+
+
+          <div class="row" style="margin-right: 15px;">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <!-- <div class="row" > -->
+                    <div style="display: flex; justify-content: center; flex-wrap: wrap; margin-top: -10px;">
+                        <div class="col-md-4 col-sm-12 col-xs-12 material-dashboard">
+                          <div class="materila-dashboard-content row" id="first" style="background-color: gold;">
+                            <div class="sub-material-dashboard col-md-3 col-sm-3 col-xs-3">
+                              <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect opacity="0.05" width="64" height="64" rx="32" fill="#3366FF"/>
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M26.4133 18.6667H37.588C41.7067 18.6667 44 21.0401 44 25.1067V38.8801C44 43.0134 41.7067 45.3334 37.588 45.3334H26.4133C22.36 45.3334 20 43.0134 20 38.8801V25.1067C20 21.0401 22.36 18.6667 26.4133 18.6667ZM26.7732 24.8799V24.8666H30.7585C31.3332 24.8666 31.7999 25.3333 31.7999 25.9053C31.7999 26.4933 31.3332 26.9599 30.7585 26.9599H26.7732C26.1985 26.9599 25.7332 26.4933 25.7332 25.9199C25.7332 25.3466 26.1985 24.8799 26.7732 24.8799ZM26.7732 32.9865H37.2265C37.7999 32.9865 38.2665 32.5198 38.2665 31.9465C38.2665 31.3732 37.7999 30.9052 37.2265 30.9052H26.7732C26.1985 30.9052 25.7332 31.3732 25.7332 31.9465C25.7332 32.5198 26.1985 32.9865 26.7732 32.9865ZM26.7734 39.0798H37.2267C37.7587 39.0265 38.1601 38.5718 38.1601 38.0398C38.1601 37.4932 37.7587 37.0398 37.2267 36.9865H26.7734C26.3734 36.9465 25.9867 37.1332 25.7734 37.4798C25.5601 37.8132 25.5601 38.2532 25.7734 38.5998C25.9867 38.9332 26.3734 39.1332 26.7734 39.0798Z" fill="#3366FF"/>
+                                </svg>                                  
+                            </div>
+                            <div class="sub-material-dashboard1 col-md-9 col-sm-9 col-xs-9">
+                              <span class="material-dashboard-text" style="color: #3366FF;">Tổng số đơn hàng</span>
+                              <br/>
+                              <span class="material-dashboard-quantity">{{ total }}</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-4 col-sm-12 col-xs-12 material-dashboard">
+                          <div class="materila-dashboard-content row" id="first" style="background-color: crimson;">
+                            <div class="sub-material-dashboard col-md-3 col-sm-3 col-xs-3">
+                              <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect opacity="0.05" width="64" height="64" rx="32" fill="#3366FF"/>
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M26.4133 18.6667H37.588C41.7067 18.6667 44 21.0401 44 25.1067V38.8801C44 43.0134 41.7067 45.3334 37.588 45.3334H26.4133C22.36 45.3334 20 43.0134 20 38.8801V25.1067C20 21.0401 22.36 18.6667 26.4133 18.6667ZM26.7732 24.8799V24.8666H30.7585C31.3332 24.8666 31.7999 25.3333 31.7999 25.9053C31.7999 26.4933 31.3332 26.9599 30.7585 26.9599H26.7732C26.1985 26.9599 25.7332 26.4933 25.7332 25.9199C25.7332 25.3466 26.1985 24.8799 26.7732 24.8799ZM26.7732 32.9865H37.2265C37.7999 32.9865 38.2665 32.5198 38.2665 31.9465C38.2665 31.3732 37.7999 30.9052 37.2265 30.9052H26.7732C26.1985 30.9052 25.7332 31.3732 25.7332 31.9465C25.7332 32.5198 26.1985 32.9865 26.7732 32.9865ZM26.7734 39.0798H37.2267C37.7587 39.0265 38.1601 38.5718 38.1601 38.0398C38.1601 37.4932 37.7587 37.0398 37.2267 36.9865H26.7734C26.3734 36.9465 25.9867 37.1332 25.7734 37.4798C25.5601 37.8132 25.5601 38.2532 25.7734 38.5998C25.9867 38.9332 26.3734 39.1332 26.7734 39.0798Z" fill="#3366FF"/>
+                                </svg>                                  
+                            </div>
+                            <div class="sub-material-dashboard1 col-md-9 col-sm-9 col-xs-9">
+                              <span class="material-dashboard-text" style="color: #3366FF;">Số đơn thành công</span>
+                              <br/>
+                              <span class="material-dashboard-quantity">{{ done }}</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-4 col-sm-12 col-xs-12 material-dashboard">
+                          <div class="materila-dashboard-content row" id="first" style="background-color: tan;">
+                            <div class="sub-material-dashboard col-md-3 col-sm-3 col-xs-3">
+                              <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect opacity="0.05" width="64" height="64" rx="32" fill="#3366FF"/>
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M26.4133 18.6667H37.588C41.7067 18.6667 44 21.0401 44 25.1067V38.8801C44 43.0134 41.7067 45.3334 37.588 45.3334H26.4133C22.36 45.3334 20 43.0134 20 38.8801V25.1067C20 21.0401 22.36 18.6667 26.4133 18.6667ZM26.7732 24.8799V24.8666H30.7585C31.3332 24.8666 31.7999 25.3333 31.7999 25.9053C31.7999 26.4933 31.3332 26.9599 30.7585 26.9599H26.7732C26.1985 26.9599 25.7332 26.4933 25.7332 25.9199C25.7332 25.3466 26.1985 24.8799 26.7732 24.8799ZM26.7732 32.9865H37.2265C37.7999 32.9865 38.2665 32.5198 38.2665 31.9465C38.2665 31.3732 37.7999 30.9052 37.2265 30.9052H26.7732C26.1985 30.9052 25.7332 31.3732 25.7332 31.9465C25.7332 32.5198 26.1985 32.9865 26.7732 32.9865ZM26.7734 39.0798H37.2267C37.7587 39.0265 38.1601 38.5718 38.1601 38.0398C38.1601 37.4932 37.7587 37.0398 37.2267 36.9865H26.7734C26.3734 36.9465 25.9867 37.1332 25.7734 37.4798C25.5601 37.8132 25.5601 38.2532 25.7734 38.5998C25.9867 38.9332 26.3734 39.1332 26.7734 39.0798Z" fill="#3366FF"/>
+                                </svg>                                  
+                            </div>
+                            <div class="sub-material-dashboard1 col-md-9 col-sm-9 col-xs-9">
+                              <span class="material-dashboard-text" style="color: #3366FF;">Số đơn hủy</span>
+                              <br/>
+                              <span class="material-dashboard-quantity">{{ cancel }}</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-4 col-sm-12 col-xs-12 material-dashboard">
+                          <div class="materila-dashboard-content row" id="first" style="background-color: darkkhaki;">
+                            <div class="sub-material-dashboard col-md-3 col-sm-3 col-xs-3">
+                              <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect opacity="0.05" width="64" height="64" rx="32" fill="#3366FF"/>
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M26.4133 18.6667H37.588C41.7067 18.6667 44 21.0401 44 25.1067V38.8801C44 43.0134 41.7067 45.3334 37.588 45.3334H26.4133C22.36 45.3334 20 43.0134 20 38.8801V25.1067C20 21.0401 22.36 18.6667 26.4133 18.6667ZM26.7732 24.8799V24.8666H30.7585C31.3332 24.8666 31.7999 25.3333 31.7999 25.9053C31.7999 26.4933 31.3332 26.9599 30.7585 26.9599H26.7732C26.1985 26.9599 25.7332 26.4933 25.7332 25.9199C25.7332 25.3466 26.1985 24.8799 26.7732 24.8799ZM26.7732 32.9865H37.2265C37.7999 32.9865 38.2665 32.5198 38.2665 31.9465C38.2665 31.3732 37.7999 30.9052 37.2265 30.9052H26.7732C26.1985 30.9052 25.7332 31.3732 25.7332 31.9465C25.7332 32.5198 26.1985 32.9865 26.7732 32.9865ZM26.7734 39.0798H37.2267C37.7587 39.0265 38.1601 38.5718 38.1601 38.0398C38.1601 37.4932 37.7587 37.0398 37.2267 36.9865H26.7734C26.3734 36.9465 25.9867 37.1332 25.7734 37.4798C25.5601 37.8132 25.5601 38.2532 25.7734 38.5998C25.9867 38.9332 26.3734 39.1332 26.7734 39.0798Z" fill="#3366FF"/>
+                                </svg>                                  
+                            </div>
+                            <div class="sub-material-dashboard1 col-md-9 col-sm-9 col-xs-9">
+                              <span class="material-dashboard-text" style="color: #3366FF;">Tổng số đơn đang chờ xác nhận</span>
+                              <br/>
+                              <span class="material-dashboard-quantity">{{ waiting }}</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-4 col-sm-12 col-xs-12 material-dashboard">
+                          <div class="materila-dashboard-content row" id="first" style="background-color: rgb(183, 104, 119);">
+                            <div class="sub-material-dashboard col-md-3 col-sm-3 col-xs-3">
+                              <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect opacity="0.05" width="64" height="64" rx="32" fill="#3366FF"/>
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M26.4133 18.6667H37.588C41.7067 18.6667 44 21.0401 44 25.1067V38.8801C44 43.0134 41.7067 45.3334 37.588 45.3334H26.4133C22.36 45.3334 20 43.0134 20 38.8801V25.1067C20 21.0401 22.36 18.6667 26.4133 18.6667ZM26.7732 24.8799V24.8666H30.7585C31.3332 24.8666 31.7999 25.3333 31.7999 25.9053C31.7999 26.4933 31.3332 26.9599 30.7585 26.9599H26.7732C26.1985 26.9599 25.7332 26.4933 25.7332 25.9199C25.7332 25.3466 26.1985 24.8799 26.7732 24.8799ZM26.7732 32.9865H37.2265C37.7999 32.9865 38.2665 32.5198 38.2665 31.9465C38.2665 31.3732 37.7999 30.9052 37.2265 30.9052H26.7732C26.1985 30.9052 25.7332 31.3732 25.7332 31.9465C25.7332 32.5198 26.1985 32.9865 26.7732 32.9865ZM26.7734 39.0798H37.2267C37.7587 39.0265 38.1601 38.5718 38.1601 38.0398C38.1601 37.4932 37.7587 37.0398 37.2267 36.9865H26.7734C26.3734 36.9465 25.9867 37.1332 25.7734 37.4798C25.5601 37.8132 25.5601 38.2532 25.7734 38.5998C25.9867 38.9332 26.3734 39.1332 26.7734 39.0798Z" fill="#3366FF"/>
+                                </svg>                                  
+                            </div>
+                            <div class="sub-material-dashboard1 col-md-9 col-sm-9 col-xs-9">
+                              <span class="material-dashboard-text" style="color: #3366FF;">Tổng số đơn đang chuẩn bị</span>
+                              <br/>
+                              <span class="material-dashboard-quantity">{{ preparing }}</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-4 col-sm-12 col-xs-12 material-dashboard">
+                          <div class="materila-dashboard-content row" id="first" style="background-color: rgb(29, 138, 42);">
+                            <div class="sub-material-dashboard col-md-3 col-sm-3 col-xs-3">
+                              <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect opacity="0.05" width="64" height="64" rx="32" fill="#3366FF"/>
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M26.4133 18.6667H37.588C41.7067 18.6667 44 21.0401 44 25.1067V38.8801C44 43.0134 41.7067 45.3334 37.588 45.3334H26.4133C22.36 45.3334 20 43.0134 20 38.8801V25.1067C20 21.0401 22.36 18.6667 26.4133 18.6667ZM26.7732 24.8799V24.8666H30.7585C31.3332 24.8666 31.7999 25.3333 31.7999 25.9053C31.7999 26.4933 31.3332 26.9599 30.7585 26.9599H26.7732C26.1985 26.9599 25.7332 26.4933 25.7332 25.9199C25.7332 25.3466 26.1985 24.8799 26.7732 24.8799ZM26.7732 32.9865H37.2265C37.7999 32.9865 38.2665 32.5198 38.2665 31.9465C38.2665 31.3732 37.7999 30.9052 37.2265 30.9052H26.7732C26.1985 30.9052 25.7332 31.3732 25.7332 31.9465C25.7332 32.5198 26.1985 32.9865 26.7732 32.9865ZM26.7734 39.0798H37.2267C37.7587 39.0265 38.1601 38.5718 38.1601 38.0398C38.1601 37.4932 37.7587 37.0398 37.2267 36.9865H26.7734C26.3734 36.9465 25.9867 37.1332 25.7734 37.4798C25.5601 37.8132 25.5601 38.2532 25.7734 38.5998C25.9867 38.9332 26.3734 39.1332 26.7734 39.0798Z" fill="#3366FF"/>
+                                </svg>                                  
+                            </div>
+                            <div class="sub-material-dashboard1 col-md-9 col-sm-9 col-xs-9">
+                              <span class="material-dashboard-text" style="color: #3366FF;">Tổng số đơn đang giao</span>
+                              <br/>
+                              <span class="material-dashboard-quantity">{{ transfering }}</span>
+                            </div>
+                          </div>
+                        </div>        
+                    </div>
+                <!-- </div> -->
+            </div>
+        </div>
+
+
+        <div class="row" style="margin-right: 25px;">
+          <div class="col-md-12 col-xs-12" style="margin-top: 20px; margin-bottom: 20px ; height: 100%; background: #ffffff; border-radius: 8px;">
+            <div class="menu-action-dv">
+              <h3 style="padding-left: 15px; text-transform: uppercase">DOANH THU THEO SẢN PHẨM</h3>
+            </div>
+            <div class="menu-action-dv row h-100" style="margin-top: 24px;">
+            <div style="display: block; box-sizing: border-box;">
+              <div #container>
+              </div>
+              <ngx-charts-bar-vertical 
+                [view]="[1200,400]"
+                [results]="revenueChart"
+                [xAxisLabel]="'Sản phẩm'"
+                [yAxisLabel]="'Doanh thu VNĐ'"
+                [legend]="false"
+                [showXAxisLabel]="true"
+                [showYAxisLabel]="true"
+                [xAxis]="true"
+                [yAxis]="true"
+                [gradient]="true">
+              </ngx-charts-bar-vertical>
+            </div>
+         </div>
+        </div>
+    </div>
+    <div class="row" style="margin-right: 25px;">
+      <div class="col-md-12 col-xs-12" style="margin-top: 20px; margin-bottom: 20px ; height: 100%; background: #ffffff; border-radius: 8px;">
+        <div class="menu-action-dv">
+          <h3 style="padding-left: 15px; text-transform: uppercase">SỐ LƯỢNG BÁN THEO SẢN PHẨM</h3>
+        </div>
+        <div class="menu-action-dv row h-100" style="margin-top: 24px;">
+        <div style="display: block; box-sizing: border-box;">
+          <div #container>
+          </div>
+          <ngx-charts-bar-vertical 
+            [view]="[1200,400]"
+            [results]="quantityChart"
+            [xAxisLabel]="'Sản phẩm'"
+            [yAxisLabel]="'Số lượng bán'"
+            [legend]="false"
+            [showXAxisLabel]="true"
+            [showYAxisLabel]="true"
+            [xAxis]="true"
+            [yAxis]="true"
+            [gradient]="true">
+          </ngx-charts-bar-vertical>
+        </div>
+     </div>
+    </div>
+</div>
+</div>

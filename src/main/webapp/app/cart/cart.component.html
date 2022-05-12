@@ -168,6 +168,19 @@
             {{ send.email.message }}
           </small>
         </div>
+        <div class="col-md-12">
+          <label for="">Ghi chú: </label>
+          <textarea
+            style="font-size: 12px !important"
+            type="text"
+            placeholder="Ghi chú"
+            [(ngModel)]="send.note.value"
+            [ngModelOptions]="{ standalone: true }"
+          ></textarea>
+          <small class="error-validate" style="color: red" *ngIf="send.note.error">
+            {{ send.note.message }}
+          </small>
+        </div>
       </div>
     </div>
     <div class="modal-footer">

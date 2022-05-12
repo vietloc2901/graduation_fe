@@ -38,6 +38,11 @@ import { RouterModule } from '@angular/router';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
 import { ProductComponent } from './product/product.component';
 import { CartComponent } from './cart/cart.component';
+import { MyOrdersComponent } from './my-orders/my-orders.component';
+import { ActionMyOrdersComponent } from './my-orders/action-my-orders/action-my-orders.component';
+import { MyOrderDetailsComponent } from './my-orders/my-order-details/my-order-details.component';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+
 @NgModule({
   imports: [
     BrowserModule,
@@ -69,6 +74,7 @@ import { CartComponent } from './cart/cart.component';
     Title,
     { provide: LOCALE_ID, useValue: 'vi' },
     { provide: NgbDateAdapter, useClass: NgbDateDayjsAdapter },
+    {provide: LocationStrategy, useClass: HashLocationStrategy},
     httpInterceptorProviders,
   ],
   declarations: [
@@ -80,6 +86,9 @@ import { CartComponent } from './cart/cart.component';
     ProductDetailComponent,
     ProductComponent,
     CartComponent,
+    MyOrdersComponent,
+    ActionMyOrdersComponent,
+    MyOrderDetailsComponent,
   ],
   bootstrap: [MainComponent],
 })

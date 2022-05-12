@@ -29,6 +29,19 @@ import { BodyModule, ColumnResizingService, FilterMenuModule, GridModule, PagerM
 import { EditorModule } from '@progress/kendo-angular-editor';
 import { ActionProductComponent } from './products/action-product/action-product.component';
 import { ImportFileCatalogComponent } from './catalogs/import-file-catalog/import-file-catalog.component';
+import { ActionOrdersComponent } from './orders/action-orders/action-orders.component';
+import { UpdateOrdersComponent } from './orders/update-orders/update-orders.component';
+import { CreateUserManagerComponent } from './user-management/create-user-manager/create-user-manager.component';
+import { ActionUserManagerComponent } from './user-management/action-user-manager/action-user-manager.component';
+import { StatisticComponent } from './statistic/statistic.component';
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatIconModule} from "@angular/material/icon";
+import {MAT_DATE_LOCALE, MatOptionModule} from '@angular/material/core';
+import { MatInputModule } from '@angular/material/input';
+import {ChartModule} from '@progress/kendo-angular-charts';
+import '@progress/kendo-angular-intl/locales/de/all';
+import { NgxChartsModule }from '@swimlane/ngx-charts';
+
 
 @NgModule({
   declarations: [
@@ -41,6 +54,11 @@ import { ImportFileCatalogComponent } from './catalogs/import-file-catalog/impor
     CreatUpdateProductComponent,
     ActionProductComponent,
     ImportFileCatalogComponent,
+    ActionOrdersComponent,
+    UpdateOrdersComponent,
+    CreateUserManagerComponent,
+    ActionUserManagerComponent,
+    StatisticComponent,
   ],
   imports: [
     AdminRoutingModule,
@@ -71,8 +89,13 @@ import { ImportFileCatalogComponent } from './catalogs/import-file-catalog/impor
     SharedModule,
     EditorModule,
     UploadModule,
+    MatDatepickerModule,
+    MatIconModule,
+    MatInputModule,
+    ChartModule,
+    NgxChartsModule
   ],
   entryComponents: [CreateUpdateCatalogComponent],
-  providers: [httpInterceptorProviders, UploadService],
+  providers: [httpInterceptorProviders, UploadService, { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }],
 })
 export class AdminModule {}

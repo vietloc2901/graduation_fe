@@ -10,6 +10,7 @@ import { UserRouteAccessService } from 'app/core/auth/user-route-access.service'
 import { ProductDetailComponent } from './product-detail/product-detail.component';
 import { ProductComponent } from './product/product.component';
 import { CartComponent } from './cart/cart.component';
+import { MyOrdersComponent } from './my-orders/my-orders.component';
 
 const LAYOUT_ROUTES = [navbarRoute, ...errorRoute];
 
@@ -48,6 +49,10 @@ const LAYOUT_ROUTES = [navbarRoute, ...errorRoute];
         {
           path: 'cart/:id',
           component: CartComponent,
+        },
+        {
+          path: 'my-orders',
+          component: MyOrdersComponent,
         },
         ...LAYOUT_ROUTES,
       ],

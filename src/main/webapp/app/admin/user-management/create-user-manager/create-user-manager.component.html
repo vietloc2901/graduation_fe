@@ -1,0 +1,74 @@
+<div class="modal-dialog-custom modal-custom-action" [formGroup]="form1" *ngIf="form1">
+    <div class="modal-header">
+      <h4 class="modal-title" style="text-align: center; color: #101840 !important">Thêm mới người dùng quản lý</h4>
+    </div>
+    <div class="modal-body" style="padding: 15px 10px !important">
+      <div class="row">
+        <div class="col-md-12">
+          <label for="">Tên đăng nhập<span> *</span></label>
+          <input
+            #focusInput
+            style="font-size: 12px"
+            type="text"
+            placeholder="Tên đăng nhập"
+            (ngModelChange)="validateLogin()"
+            [(ngModel)]="login.value"
+            [ngModelOptions]="{ standalone: true }"
+          />
+          <small class="error-validate" style="color: red" *ngIf="login.error">
+            {{ login.message }}
+          </small>
+        </div>
+        <div class="col-md-12">
+          <label for="">Mật khẩu <span>*</span></label>
+          <input
+            style="font-size: 12px !important"
+            type="password"
+            placeholder="Mật khẩu"
+            [(ngModel)]="password.value"
+            (ngModelChange)="validatePassword()"
+            [ngModelOptions]="{ standalone: true }"
+          />
+          <small class="error-validate" style="color: red" *ngIf="password.error">
+            {{ password.message }}
+          </small>
+        </div>
+        <div class="col-md-12">
+          <label for="">Nhập lại mật khẩu <span>*</span></label>
+          <input
+            style="font-size: 12px !important"
+            type="password"
+            placeholder="Nhập lại mật khẩu"
+            [(ngModel)]="repass.value"
+            (ngModelChange)="validateRepass()"
+            [ngModelOptions]="{ standalone: true }"
+          />
+          <small class="error-validate" style="color: red" *ngIf="repass.error">
+            {{ repass.message }}
+          </small>
+        </div>
+        
+        <div class="col-md-12">
+          <label for="">Email <span>*</span></label>
+          <input
+            style="font-size: 12px !important"
+            type="email"
+            placeholder="Email"
+            [(ngModel)]="email.value"
+            (ngModelChange)="validateEmail()"
+            [ngModelOptions]="{ standalone: true }"
+          />
+          <small class="error-validate" style="color: red" *ngIf="email.error">
+            {{ email.message }}
+          </small>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <div class="btn-action">
+        <button type="button" class="btn-md btn-gray" (click)="closeModal()">Hủy bỏ</button>
+        <button (click)="createUser()" [disabled]="isSubmit" type="button" class="btn-md btn-or">Thêm mới</button>
+      </div>
+    </div>
+  </div>
+  

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { CartService } from 'app/core/service/cart.service';
 import { CatalogService } from 'app/core/service/catalog.service';
 import { CommonServiceService } from 'app/core/service/common-service.service';
 import { ProductService } from 'app/core/service/product.service';
@@ -14,7 +15,8 @@ export class ProductComponent implements OnInit {
     private router: Router,
     private catalogService: CatalogService,
     private productService: ProductService,
-    private commonService: CommonServiceService
+    private commonService: CommonServiceService,
+    private cartService: CartService
   ) {}
 
   ngOnInit(): void {
@@ -129,6 +131,10 @@ export class ProductComponent implements OnInit {
     } else {
       return data;
     }
+  }
+
+  addToCart(data, quantity) {
+    this.cartService.addToCart(data, quantity);
   }
 
   getData() {

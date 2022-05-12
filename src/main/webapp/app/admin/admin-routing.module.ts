@@ -5,6 +5,7 @@ import { OrdersComponent } from './orders/orders.component';
 import { ProductsComponent } from './products/products.component';
 import { UserManagementComponent } from './user-management/user-management.component';
 import { CreatUpdateProductComponent } from './products/creat-update-product/creat-update-product.component';
+import { StatisticComponent } from './statistic/statistic.component';
 /* jhipster-needle-add-admin-module-import - JHipster will add admin modules imports here */
 
 @NgModule({
@@ -14,9 +15,6 @@ import { CreatUpdateProductComponent } from './products/creat-update-product/cre
       {
         path: 'user-management',
         component: UserManagementComponent,
-        data: {
-          pageTitle: 'userManagement.home.title',
-        },
       },
       {
         path: 'catalog-management',
@@ -37,6 +35,10 @@ import { CreatUpdateProductComponent } from './products/creat-update-product/cre
       {
         path: 'create-update-product/:id',
         component: CreatUpdateProductComponent,
+      },
+      {
+        path: 'statistic',
+        component: StatisticComponent,
       },
       /* jhipster-needle-add-admin-route - JHipster will add admin routes here */
     ]),

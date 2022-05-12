@@ -1,0 +1,115 @@
+<div class="modal-dialog-custom modal-custom-action" [formGroup]="form1" *ngIf="form1">
+    <div class="modal-header">
+      <h4 class="modal-title" style="text-align: center; color: #101840 !important">Cập nhật đơn hàng</h4>
+    </div>
+    <div class="modal-body" style="padding: 15px 10px !important">
+      <div class="row">
+        <input type="hidden" formControlName="id" />
+        <div class="col-md-4">
+          <label for="">Tên người đặt</label>
+          <input
+            #focusInput
+            style="font-size: 12px"
+            type="text"
+            placeholder="Tên người đặt"
+            [readonly]="true"
+            formControlName="name"
+          />
+        </div>
+        <div class="col-md-4">
+          <label for="">Tên người nhận</label>
+          <input
+            style="font-size: 12px !important"
+            type="text"
+            placeholder="Tên người nhận"
+            [readonly]="true"
+            formControlName="receiverName"
+          />
+        </div>
+        <div class="col-md-4">
+            <label for="">SĐT đặt</label>
+            <input
+              style="font-size: 12px !important"
+              type="text"
+              placeholder="SĐT đặt"
+              [readonly]="true"
+              formControlName="phone"
+            />
+          </div>
+          <div class="col-md-4">
+            <label for="">SĐT người nhận</label>
+            <input
+              style="font-size: 12px !important"
+              type="text"
+              placeholder="SĐT người nhận"
+              [readonly]="true"
+              formControlName="receiverPhone"
+            />
+          </div>
+          <div class="col-md-4">
+            <label for="">Email</label>
+            <input
+              style="font-size: 12px !important"
+              type="text"
+              placeholder="Email"
+              [readonly]="true"
+              formControlName="email"
+            />
+          </div>
+          <div class="col-md-4">
+            <label for="">Địa chỉ nhận</label>
+            <input
+              style="font-size: 12px !important"
+              type="text"
+              placeholder="Địa chỉ nhận"
+              [readonly]="true"
+              formControlName="address"
+            />
+          </div>
+          <div class="col-md-4">
+            <label for="">Trạng thái đơn hàng</label>
+            <ng-select
+            [items]="listStatus"
+            bindLabel="name"
+            bindValue="id"
+            placeholder="Trạng thái"
+            formControlName="status"
+            [clearable]="false"
+            [readonly]="true"
+          >
+          </ng-select>
+          </div>
+          <div class="col-md-4">
+            <label for="">Tổng tiền</label>
+            <input
+              style="font-size: 12px !important"
+              type="text"
+              placeholder="Tổng tiền"
+              [readonly]="true"
+              formControlName="sumPriceString"
+            />
+          </div>
+          <div class="col-md-8">
+            <label for="">Chú ý</label>
+            <textarea
+              style="font-size: 12px !important"
+              type="text"
+              placeholder="Chú ý"
+              formControlName="note"
+              [readonly]="true"
+            ></textarea>
+      </div>
+    </div>
+    <div class="row" *ngFor="let item of listProducts">
+        <div class="col-md-4"><img [src]="item.productImage"></div>
+        <div class="col-md-4" style="justify-content: center;">{{item.productName}}</div>
+        <div class="col-md-2" style="justify-content: center; align-items: center;">{{item.quantity}} x</div>
+        <div class="col-md-2" style="justify-content: center; align-items: center;">{{formatCurrency(item.price)}}</div>
+    </div>
+    <div class="modal-footer">
+      <div class="btn-action">
+        <button type="button" class="btn-md btn-gray" (click)="closeModal()">Đóng</button>
+      </div>
+    </div>
+  </div>
+  

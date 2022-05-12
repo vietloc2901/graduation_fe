@@ -1,7 +1,7 @@
 <nav data-cy="navbar" class="navbar navbar-dark navbar-expand-md bg-dark">
   <a class="navbar-brand logo" routerLink="/" (click)="collapseNavbar()">
     <span class="logo-img"></span>
-    <span class="navbar-title">Locnv Shop</span>
+    <span class="navbar-title">HẢI LONG COMPUTER</span>
   </a>
   <a
     class="navbar-toggler d-lg-none"
@@ -41,10 +41,18 @@
           </span>
         </a>
       </li>
+      <li class="nav-item" *ngIf="account" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <a class="nav-link" routerLink="/my-orders" (click)="collapseNavbar()">
+          <span>
+            <fa-icon icon="shopping-bag"></fa-icon>
+            <span>Đơn hàng của tôi</span>
+          </span>
+        </a>
+      </li>
       <!-- jhipster-needle-add-element-to-menu - JHipster will add new menu items here -->
 
       <li
-        *jhiHasAnyAuthority="'ROLE_ADMIN'"
+        *jhiHasAnyAuthority="['ROLE_ADMIN','ROLE_MANAGE']"
         ngbDropdown
         class="nav-item dropdown pointer"
         display="dynamic"
@@ -59,6 +67,12 @@
         </a>
         <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="admin-menu">
           <li>
+            <a class="dropdown-item" routerLink="admin/statistic" routerLinkActive="active" (click)="collapseNavbar()">
+              <fa-icon icon="chart-bar" [fixedWidth]="true"></fa-icon>
+              <span>Thống kê</span>
+            </a>
+          </li>
+          <li *jhiHasAnyAuthority="['ROLE_ADMIN']">
             <a class="dropdown-item" routerLink="admin/user-management" routerLinkActive="active" (click)="collapseNavbar()">
               <fa-icon icon="users" [fixedWidth]="true"></fa-icon>
               <span>Quản lý người dùng</span>
@@ -95,12 +109,12 @@
             </a>
           </li> -->
           <!-- jhipster-needle-add-element-to-admin-menu - JHipster will add entities to the admin menu here -->
-          <li *ngIf="!inProduction">
+          <!-- <li *ngIf="!inProduction">
             <a class="dropdown-item" href="./h2-console/" target="_tab" (click)="collapseNavbar()">
               <fa-icon icon="database" [fixedWidth]="true"></fa-icon>
               <span>Database</span>
             </a>
-          </li>
+          </li> -->
         </ul>
       </li>
       <li

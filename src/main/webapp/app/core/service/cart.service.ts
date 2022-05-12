@@ -52,11 +52,11 @@ export class CartService extends BasicService {
     //   this.http.post<any>(`${this.applicationConfigService.getEndpointFor('api/cart-item')}`, data);
     // } else {
     let cart = sessionStorage.getItem('cart');
-    console.log(cart);
     if (cart == null) {
       let orderCart = [];
       orderCart.push({ productId: data.id, quantity: quantity, name: data.name, price: data.price, image: data.image });
       sessionStorage.setItem('cart', JSON.stringify(orderCart));
+      this.toaStr.success('Đã thêm sản phẩm vào giỏ hàng');
     } else {
       let orderCart = JSON.parse(cart);
       orderCart.forEach(element => {

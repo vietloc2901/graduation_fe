@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AccountService } from 'app/core/auth/account.service';
 import { CartService } from 'app/core/service/cart.service';
 import { ProductService } from 'app/core/service/product.service';
 import { ToastrService } from 'ngx-toastr';
@@ -17,7 +18,8 @@ export class CartComponent implements OnInit {
     public router: Router,
     private route: ActivatedRoute,
     private toaStr: ToastrService,
-    private cartService: CartService
+    private cartService: CartService,
+    private accountService: AccountService
   ) {
     this.getCart();
     this.getUser();
@@ -60,6 +62,11 @@ export class CartComponent implements OnInit {
       error: false,
       message: '',
     },
+    note: {
+      value: '',
+      error: false,
+      message: ''
+    }
   };
 
   OnKeyDown(event) {
@@ -105,6 +112,7 @@ export class CartComponent implements OnInit {
       this.toaStr.error('Địa chỉ người nhận không được để trống!');
       return;
     }
+    
 
     let data = {
       name: this.send.name.value,
@@ -114,6 +122,7 @@ export class CartComponent implements OnInit {
       receiverName: this.send.receiverName.value,
       receiverPhone: this.send.receiverPhone.value,
       listItem: this.listCartItem,
+      note: this.send.note.value
     };
 
     this.cartService.createOrder(data).subscribe(res => {

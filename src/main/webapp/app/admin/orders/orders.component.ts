@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { CommonServiceService } from 'app/core/service/common-service.service';
 import { Router } from '@angular/router';
 import { OrderService } from 'app/core/service/order.service';
+import { ActionOrdersComponent } from './action-orders/action-orders.component';
 
 @Component({
   selector: 'jhi-orders',
@@ -263,13 +264,37 @@ export class OrdersComponent implements OnInit {
         tooltipField: 'lastModifiedBy',
       },
       {
+        headerName: 'Trạng thái',
+        headerTooltip: 'Trạng thái',
+        field: 'status',
+        suppressMovable: true,
+        valueFormatter: this.formatStatus,
+        minWidth: 128,
+        width: 128,
+        cellStyle: {
+          'font-weight': '500',
+          'font-size': '12px',
+          'margin-left': '5px',
+          color: '#101840',
+          //display: 'flex',
+          top: '12px',
+          'white-space': 'nowrap',
+          'text-overflow': 'ellipsis',
+          overflow: 'hidden',
+        },
+        tooltipField: 'status',
+        tooltipValueGetter: params => {
+          return this.formatStatus(params);
+        },
+      },
+      {
         headerName: '',
         field: 'undefined',
         suppressMovable: true,
         //displayce: 'nowrap',
-        cellRendererFramework: '',
         minWidth: 48,
         maxWidth: 48,
+        cellRendererFramework: ActionOrdersComponent,
       },
     ];
   }
@@ -305,6 +330,14 @@ export class OrdersComponent implements OnInit {
     }
   }
 
+  exportExcel(){
+    const data = {
+      createDateString: this.createDate,
+      status: this.statusSearch,
+    };
+    return this.orderService.exportExcel(data);
+  }
+
   formatCurrency(params) {
     return params.value.toLocaleString('vi-VI', { style: 'currency', currency: 'VND' });
   }
@@ -318,8 +351,25 @@ export class OrdersComponent implements OnInit {
   }
 
   formatStatus(params) {
-    if (params.value === true) return 'Kinh doanh';
-    else return 'Ngừng kinh doanh';
+    switch(params.value){
+      case 'WAITING':
+        return 'Đang chờ'
+        break
+      case 'PREPARING':
+        return 'Đang chuẩn bị'
+        break;
+      case 'TRANSFERING':
+        return 'Đang giao'
+        break;
+      case 'Done':
+        return 'Hoàn thành'
+        break
+      case 'CANCEL':
+        return 'Hủy'
+        break
+      default:
+        return ''
+    }
   }
 
   totalRecord = 0;
@@ -346,7 +396,7 @@ export class OrdersComponent implements OnInit {
     } catch (e) {}
     this.page = page;
     const data = {
-      createDate: this.createDate,
+      createDateString: this.createDate,
       status: this.statusSearch,
     };
     this.orderService.search(data, page, this.pageSize).subscribe(
